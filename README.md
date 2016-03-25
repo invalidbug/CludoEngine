@@ -26,8 +26,8 @@ Over time, there is bound to be more. This is what I will be focusing on for the
 - Finish FarseerPhysics implementation
 - Complete Tiled implementation
 - Complete GUI system with ComboBoxes, Textboxes, Progressbars, and more controls.
-- A Platformer Character controller. Because right now, it is insanely hard for someone who has never had to make a platformer character that uses true physics, to make a moveable character in my Engine. This problem arises in Engines like unity, but it is fixed by making a Character Controller that fixes all of the physic problems with real-like physics.
-- More fleshed out Scene Sequences, don't get confused with a Scene in this instance with a basically a Level. This scene is more for when a character talks, the camera zooms into the character, zooms to something else when hes done talking and so on. Right now, there isn't much code there to make it really easy for the coder, which is my intention. For the expirenced, its a piece of cake though.
+- A Platformer Character Controller. Because right now, it is insanely hard for someone who has never had to make a platformer character that uses true physics, to make a moveable character in my Engine(assuming its a platformer). This problem arises in Engines like unity, but it is fixed by making a Character Controller that fixes all of the physic problems with real-like physics.
+- More fleshed out Scene Sequences, don't get confused with a Scene in this instance with a Level like scene. This scene is more for when a character talks, the camera zooms into the character, zooms to something else when hes done talking and so on. Right now, there isn't much code there to make it really easy for the coder, which is my intention. For the expirenced, its a piece of cake though.
 - I'm not sure how to tackle the AI problem explained the the "What does the engine Aim to accomplish?", maybe I will create a bunch of AI classes that control said object to do said thing? This would make it very limited though, which is the opposite of what I want.
 - Networking library, at the moment, my friend has created a Amazing library, that I would like to be supported, however I do not yet have permission and I'm not sure how it would work with Linux or other Platforms.
 - And more!
@@ -42,7 +42,7 @@ Over time, there is bound to be more. This is what I will be focusing on for the
 
 #License
 Currently working on finding one, but heres how its planned:
-There will be 2 License:
+There will be 2 Licenses:
 License 1(Free):
 Free to redistribute, with credit.
 Cannot use library for Commercial use.
