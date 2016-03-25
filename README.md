@@ -31,3 +31,25 @@ Over time, there is bound to be more. This is what I will be focusing on for the
 - I'm not sure how to tackle the AI problem explained the the "What does the engine Aim to accomplish?", maybe I will create a bunch of AI classes that control said object to do said thing? This would make it very limited though, which is the opposite of what I want.
 - Networking library, at the moment, my friend has created a Amazing library, that I would like to be supported, however I do not yet have permission and I'm not sure how it would work with Linux or other Platforms.
 - And more!
+
+
+#Credits
+- Darin Boyer - Lead Developer and Project Manager. darinboyer.website & cludogames.com
+- TiledSharp - A library used to help load Tiled Maps. https://github.com/marshallward/TiledSharp - Licensed under the Apache License. See https://github.com/marshallward/TiledSharp/blob/master/LICENSE for more information.
+- Monogame - A library used to help Render anything on the screen. http://www.monogame.net/ - Licensed under the ﻿Microsoft Public License (Ms-PL). See https://github.com/mono/MonoGame/blob/develop/LICENSE.txt for more information.
+- Farseer Physics - A library used to help implement Physics into the engine. https://farseerphysics.codeplex.com/ - Licensed under the Microsoft Permissive License (Ms-PL) v1.1. See https://farseerphysics.codeplex.com/license for more information.
+- OpenTK - A library used by Monogame, to help Render things. http://www.opentk.com/ - Licesned under the The Open Toolkit library license. See http://www.opentk.com/project/license for more information.
+
+#License
+Currently working on finding one, but heres how its planned:
+There will be 2 License:
+License 1(Free):
+Free to redistribute, with credit.
+Cannot use library for Commercial use.
+Free to modify library in every which way as wanted.
+Cannot relicense.
+
+License 2($20):
+It will be the MIT license, but obvisouly will have to pay for said license.
+
+Contact darinboyer2000@gmail.com for sales.
