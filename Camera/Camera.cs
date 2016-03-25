@@ -3,6 +3,7 @@
 using FarseerPhysics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using OpenTK.Graphics.ES20;
 
 #endregion
 
@@ -101,26 +102,36 @@ namespace Cludo_Engine
                    Matrix.CreateScale(Zoom, Zoom, 1)*
                    Matrix.CreateTranslation(new Vector3(Origin, 0.0f));
         }
-
-
+        /// <summary>
+        /// Updates the Camera and CameraMode
+        /// </summary>
+        /// <param name="gt"></param>
         public void Update(GameTime gt)
         {
+            // Make mode isn't null
             if (CameraMode != null)
             {
+                // Center the Camera
                 if (CenterOnObject)
                 {
                     Target -= new Vector2(_scene.GameWindow.ClientBounds.Width/2,
                         _scene.GameWindow.ClientBounds.Height/2);
                 }
+                // Update the Camera Mode
                 CameraMode.Update(Target, gt);
             }
+            // Is clamping enabled?
             if (ClampingEnabled)
             {
+                // Create 2 float variables, x and y
                 float x = Position.X, y = Position.Y;
+                // let the clamping magic begin!
                 x = MathHelper.Clamp(x, MinClampX, MaxClampX);
                 y = MathHelper.Clamp(y, MinClampY, MaxClampY);
+                // and set the position...
                 Position = new Vector2(x, y);
             }
+            // Lets just make sure to make sure our position is a type of Int so no weird drawing happens!
             Position = new Vector2((int) Position.X, (int) Position.Y);
         }
     }
