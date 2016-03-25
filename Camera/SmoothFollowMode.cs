@@ -6,16 +6,21 @@ using Microsoft.Xna.Framework;
 
 namespace Cludo_Engine
 {
+    /// <summary>
+    /// A camera mode to smooth follow a target.
+    /// </summary>
     public struct SmoothFollowMode : ICameraMode
     {
+        // Camera instance
         private Camera _currentCamera;
-
+        // Last camera position
         private Vector2 _lastPosition;
 
         public SmoothFollowMode(Camera camera)
             : this()
         {
             _currentCamera = camera;
+            // Default delta is 0.05
             Delta = 0.05f;
         }
 
