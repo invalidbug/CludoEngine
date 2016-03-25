@@ -1,2 +1,2 @@
 language: csharp
-solution: src/Cludo.sln
+solution: Cludo.sln
