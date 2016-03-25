@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Cludo_Engine</RootNamespace>
     <AssemblyName>Cludo Engine</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
     <PublishUrl>publish\</PublishUrl>
@@ -59,9 +59,6 @@
     <Reference Include="FarseerPhysics MonoGame, Version=3.5.0.32815, Culture=neutral, processorArchitecture=x86">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\CludoEngine\CludoEngine\bin\WindowsGL\Debug\FarseerPhysics MonoGame.dll</HintPath>
-    </Reference>
-    <Reference Include="Iridium">
-      <HintPath>..\..\..\Iridium\Iridium.dll</HintPath>
     </Reference>
     <Reference Include="MonoGame.Framework, Version=3.5.0.1678, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
