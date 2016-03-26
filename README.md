@@ -41,13 +41,10 @@ Over time, there is bound to be more. This is what I will be focusing on for the
 - OpenTK - A library used by Monogame, to help Render things. http://www.opentk.com/ - Licesned under the The Open Toolkit library license. See http://www.opentk.com/project/license for more information.
 
 #License
-Currently working on finding one, but heres how its planned:
-There will be 2 Licenses:
-License 1(Free):
-Free to redistribute, with credit.
-Cannot use library for Commercial use.
-Free to modify library in every which way as wanted.
-Cannot relicense.
+There is 2 licenses
+
+License 1(This is the license used unless stated otherwise with our sales (darinboyer2000@gmail.com )
+Creative Commons Attribution-NonCommercial 3.0 United States (CC BY-NC 3.0 US) https://creativecommons.org/licenses/by-nc/3.0/us/
 
 License 2($20):
 It will be the MIT license, but obvisouly will have to pay for said license.
