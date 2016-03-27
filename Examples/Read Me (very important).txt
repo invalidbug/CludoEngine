@@ -1,0 +1,2 @@
+When compiling any Cludo Game please make sure all files with in the \Default Graphics\ are in a content folder in the same
+directory as the Game exe. If there is no content folder, make one.
