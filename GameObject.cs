@@ -10,22 +10,17 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace Cludo_Engine
-{
-    public static class CludoRenderTargetLayers
-    {
-        public static float Game()
-        {
+namespace Cludo_Engine {
+    public static class CludoRenderTargetLayers {
+        public static float Game() {
             return 0.5f;
         }
 
-        public static float Gui()
-        {
+        public static float Gui() {
             return 0.9f;
         }
 
-        public static float Lights()
-        {
+        public static float Lights() {
             return 0.6f;
         }
     }
@@ -39,10 +34,8 @@ namespace Cludo_Engine
     /// iterate through a specific type of Component and thats all, just for ease of use. When an object is added the ID is
     /// set to the count of the components +1.
     /// </summary>
-    public class GameObject : IUpdateable, IDrawable
-    {
-        public GameObject(string name, Scene scene, Vector2 position)
-        {
+    public class GameObject : IUpdateable, IDrawable {
+        public GameObject(string name, Scene scene, Vector2 position) {
             OnComponentAddedEvent += GameObject_OnComponentAddedEvent;
             Rendertarget = "Game";
             RendertargetLayer = CludoRenderTargetLayers.Game();
@@ -62,19 +55,14 @@ namespace Cludo_Engine
 
         public bool IgnoreDebug { get; set; }
 
-        public void Update(GameTime gt)
-        {
+        public void Update(GameTime gt) {
             if (Body.UserData == null)
                 Body.UserData = this;
             // Iterate through each component and Update it.
-            for (var i = 0; i < Components.Count; i++)
-            {
-                if (Components.ContainsKey(i) && Components[i] != null)
-                {
+            for (var i = 0; i < Components.Count; i++) {
+                if (Components.ContainsKey(i) && Components[i] != null) {
                     Components.ElementAt(i).Value.Update(gt);
-                }
-                else
-                {
+                } else {
                     Debugging.Debug.DoWarning(
                         "Gameobject ID: " + Id + " contains component " + Components.ElementAt(i).Key +
                         " that is null, removing from gameobject.", 2);
@@ -86,44 +74,50 @@ namespace Cludo_Engine
         }
 
         private bool Body_OnCollision(Fixture fixtureA, Fixture fixtureB,
-            FarseerPhysics.Dynamics.Contacts.Contact contact)
-        {
-            if (OnCollisionEvent != null)
-            {
+            FarseerPhysics.Dynamics.Contacts.Contact contact) {
+            if (OnCollisionEvent != null) {
                 OnCollisionEvent(this,
-                    new OnCollisionEventArgs((GameObject) fixtureA.Body.UserData, (GameObject) fixtureB.Body.UserData));
+                    new OnCollisionEventArgs((GameObject)fixtureA.Body.UserData, (GameObject)fixtureB.Body.UserData));
             }
             return true;
         }
 
-        private void GameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args)
-        {
-            switch (args.Added.Type)
-            {
+        private void GameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
+            switch (args.Added.Type) {
+                case "CircleCollider":
+                var circle = (CircleCollider)args.Added;
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, this.Body,new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)), Body);
+                Components.Remove(Components.Count - 1);
+                Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
+                Body.OnCollision += Body_OnCollision;
+                Body.UserData = this;
+                break;
+
                 case "RectangleCollider":
-                    var rect = (RectangleCollider) args.Added;
-                    FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
-                        ConvertUnits.ToSimUnits(rect.Height), rect.Density,
-                        new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
-                    Components.Remove(Components.Count - 1);
-                    Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
-                    Body.OnCollision += Body_OnCollision;
-                    Body.UserData = this;
-                    break;
+                var rect = (RectangleCollider)args.Added;
+                FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
+                    ConvertUnits.ToSimUnits(rect.Height), rect.Density,
+                    new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
+                Components.Remove(Components.Count - 1);
+                Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
+                Body.OnCollision += Body_OnCollision;
+                Body.UserData = this;
+                break;
 
                 case "CapsuleCollider":
-                    var capsule = (CapsuleCollider) args.Added;
-                    FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
-                        ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
-                        new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),
-                        Body);
-                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width/2), capsule.Density, Body,
-                        new Vector2(0, ConvertUnits.ToSimUnits(capsule.Height/2)));
-                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width/2), capsule.Density, Body,
-                        new Vector2(0, ConvertUnits.ToSimUnits(-(capsule.Height/2))));
-                    Body.OnCollision += Body_OnCollision;
-                    Body.UserData = this;
-                    break;
+                var capsule = (CapsuleCollider)args.Added;
+                FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
+                    ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
+                    new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),
+                    Body);
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width / 2), capsule.Density, Body,
+                    new Vector2(0, ConvertUnits.ToSimUnits(capsule.Height / 2)));
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width / 2), capsule.Density, Body,
+                    new Vector2(0, ConvertUnits.ToSimUnits(-(capsule.Height / 2))));
+                Body.OnCollision += Body_OnCollision;
+                Body.UserData = this;
+                break;
+
             }
         }
 
@@ -133,38 +127,32 @@ namespace Cludo_Engine
 
         public event OnCollision OnCollisionEvent;
 
-        public float Mass
-        {
+        public float Mass {
             get { return Body.Mass; }
             set { Body.Mass = value; }
         }
 
-        public Vector2 Position
-        {
+        public Vector2 Position {
             get { return ConvertUnits.ToDisplayUnits(Body.Position); }
             set { Body.Position = ConvertUnits.ToSimUnits(value); }
         }
 
-        public float Rotation
-        {
+        public float Rotation {
             get { return Body.Rotation; }
             set { Body.Rotation = value; }
         }
 
-        public bool Static
-        {
+        public bool Static {
             get { return Body.IsStatic; }
             set { Body.IsStatic = value; }
         }
 
-        public bool StaticRotation
-        {
+        public bool StaticRotation {
             get { return Body.FixedRotation; }
             set { Body.FixedRotation = value; }
         }
 
-        public Vector2 Velocity
-        {
+        public Vector2 Velocity {
             get { return ConvertUnits.ToDisplayUnits(Body.LinearVelocity); }
             set { Body.LinearVelocity = ConvertUnits.ToSimUnits(value); }
         }
@@ -196,22 +184,18 @@ namespace Cludo_Engine
 
         #region RenderTargetInformation
 
-        public string RenderTarget
-        {
+        public string RenderTarget {
             get { return Rendertarget; }
-            set
-            {
+            set {
                 RemoveFromTarget(RendertargetLayer, Rendertarget);
                 Rendertarget = value;
                 AddToTarget();
             }
         }
 
-        public float RenderTargetLayer
-        {
+        public float RenderTargetLayer {
             get { return RendertargetLayer; }
-            set
-            {
+            set {
                 RemoveFromTarget(RendertargetLayer, Rendertarget);
                 RendertargetLayer = value;
                 AddToTarget();
@@ -229,23 +213,17 @@ namespace Cludo_Engine
         private Vector2 _lastPosition;
         private float _lastRotation;
 
-        public void AddToTarget()
-        {
+        public void AddToTarget() {
             Scene.RenderTargets[RenderTarget].AddDrawable(RenderTargetLayer, this);
             Target = Scene.RenderTargets[RenderTarget];
         }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
-        {
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
             // Iterate through each component and Draw it.
-            for (var i = 0; i < Components.Count; i++)
-            {
-                if (Components.ContainsKey(i) && Components[i] != null)
-                {
+            for (var i = 0; i < Components.Count; i++) {
+                if (Components.ContainsKey(i) && Components[i] != null) {
                     Components.ElementAt(i).Value.Draw(sb);
-                }
-                else
-                {
+                } else {
                     Debugging.Debug.DoWarning(
                         "Gameobject ID: " + Id + " contains component " + Components.ElementAt(i).Key +
                         " that is null, removing from gameobject.", 2);
@@ -256,15 +234,12 @@ namespace Cludo_Engine
             }
         }
 
-        public void RemoveFromTarget(float layer, string target)
-        {
+        public void RemoveFromTarget(float layer, string target) {
             Scene.RenderTargets[target].RemoveDrawable(layer, this);
         }
 
-        public bool TestIfDrawNeeded()
-        {
-            if (_lastRotation != Rotation || _lastPosition != Position)
-            {
+        public bool TestIfDrawNeeded() {
+            if (_lastRotation != Rotation || _lastPosition != Position) {
                 _lastRotation = Rotation;
                 _lastPosition = Position;
                 return true;
@@ -281,8 +256,7 @@ namespace Cludo_Engine
         /// </summary>
         /// <param name="name"></param>
         /// <param name="component"></param>
-        public int AddComponent(string name, IComponent component)
-        {
+        public int AddComponent(string name, IComponent component) {
             component.Name = name;
             component.Id = Components.Count;
             Components.Add(component.Id, component);
@@ -296,8 +270,7 @@ namespace Cludo_Engine
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IComponent GetComponent(int id)
-        {
+        public IComponent GetComponent(int id) {
             return Components[id];
         }
 
@@ -306,8 +279,7 @@ namespace Cludo_Engine
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IEnumerable<IComponent> GetComponents(string name)
-        {
+        public IEnumerable<IComponent> GetComponents(string name) {
             return
                 from entry in Components
                 where entry.Value.Name == name
@@ -319,8 +291,7 @@ namespace Cludo_Engine
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public IEnumerable<IComponent> GetComponentsByType(string type)
-        {
+        public IEnumerable<IComponent> GetComponentsByType(string type) {
             return
                 from entry in Components
                 where entry.Value.Type == type
@@ -331,8 +302,7 @@ namespace Cludo_Engine
         /// Removes a component by ID.
         /// </summary>
         /// <param name="id"></param>
-        public void RemoveComponent(int id)
-        {
+        public void RemoveComponent(int id) {
             if (OnComponentRemovedEvent != null)
                 OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components[id]));
             Components.Remove(id);
@@ -343,14 +313,12 @@ namespace Cludo_Engine
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public void RemoveComponents(string name)
-        {
+        public void RemoveComponents(string name) {
             var q =
                 from entry in Components
                 where entry.Value.Name == name
                 select entry.Key;
-            foreach (var c in q)
-            {
+            foreach (var c in q) {
                 if (OnComponentRemovedEvent != null)
                     OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components[c]));
                 Components.Remove(c);
@@ -362,14 +330,12 @@ namespace Cludo_Engine
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
-        public void RemoveComponentsByType(string type)
-        {
+        public void RemoveComponentsByType(string type) {
             var q =
                 from entry in Components
                 where entry.Value.Type == type
                 select entry.Key;
-            foreach (var c in q)
-            {
+            foreach (var c in q) {
                 if (OnComponentRemovedEvent != null)
                     OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components[c]));
                 Components.Remove(c);

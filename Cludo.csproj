@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
+    <Compile Include="Components\CircleCollider.cs" />
     <Compile Include="SceneSequence.cs" />
     <Compile Include="Camera\SmoothFollowMode.cs" />
     <Compile Include="CludoGame.cs" />
