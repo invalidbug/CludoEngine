@@ -46,7 +46,5 @@ There is 2 licenses
 License 1(This is the license used unless stated otherwise with our sales (darinboyer2000@gmail.com )
 Creative Commons Attribution-NonCommercial 3.0 United States (CC BY-NC 3.0 US) https://creativecommons.org/licenses/by-nc/3.0/us/
 
-License 2($20):
-It will be the MIT license, but obvisouly will have to pay for said license.
-
-Contact darinboyer2000@gmail.com for sales.
+License 2:
+Please Contact darinboyer2000@gmail.com for sales. The default license allows commercial use and sublicense for $20
