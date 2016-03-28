@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cludo", "Cludo.csproj", "{3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multiple Gameobjects", "Examples\Multiple Gameobjects\Multiple Gameobjects.csproj", "{57C1A513-9022-4D25-89EF-AD616B9EA35E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteDrawingExample", "Examples\SpriteDrawingExample\SpriteDrawingExample\SpriteDrawingExample.csproj", "{374C89C4-851B-4795-A5EF-CEA73A18E01B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,6 +39,16 @@ Global
 		{57C1A513-9022-4D25-89EF-AD616B9EA35E}.Release|Mixed Platforms.Build.0 = Release|x86
 		{57C1A513-9022-4D25-89EF-AD616B9EA35E}.Release|x86.ActiveCfg = Release|x86
 		{57C1A513-9022-4D25-89EF-AD616B9EA35E}.Release|x86.Build.0 = Release|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Debug|x86.ActiveCfg = Debug|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Debug|x86.Build.0 = Debug|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|Any CPU.ActiveCfg = Release|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|Mixed Platforms.Build.0 = Release|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|x86.ActiveCfg = Release|x86
+		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

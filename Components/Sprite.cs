@@ -15,7 +15,7 @@ namespace CludoEngine.Components
         private GameObject _gameObject;
         private Rectangle _source;
         private Texture2D _texture;
-
+        private Vector2 _drawOrigin;
         public Sprite(GameObject gameObject, string texture)
         {
             Name = "Unnamed";
@@ -75,13 +75,14 @@ namespace CludoEngine.Components
         public void Draw(SpriteBatch sb)
         {
             sb.Draw(_texture,
-                new Rectangle(Convert.ToInt32(_gameObject.Position.X + LocalPosition.X),
-                    Convert.ToInt32(_gameObject.Position.Y + LocalPosition.Y), Width, Height), SourceRectangle, Color,
-                LocalRotation + _gameObject.Rotation, Vector2.Zero, Effects, Depth);
+                new Rectangle(Convert.ToInt32(_gameObject.Position.X),
+                    Convert.ToInt32(_gameObject.Position.Y ), Width, Height), SourceRectangle, Color,
+                LocalRotation + _gameObject.Rotation, _drawOrigin, Effects, Depth);
         }
-
         public void Update(GameTime gt)
         {
+            _drawOrigin = -LocalPosition;
+            Debugging.Debug.WriteLine(_drawOrigin);
         }
 
         private void gameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args)
