@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace Cludo_Engine.Graphics
+namespace CludoEngine.Graphics
 {
     public class CludoRenderTarget
     {

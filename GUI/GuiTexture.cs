@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace Cludo_Engine.GUI
+namespace CludoEngine.GUI
 {
     public class GuiTexture
     {

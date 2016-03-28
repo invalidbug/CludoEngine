@@ -7,7 +7,7 @@ using OpenTK.Graphics.ES20;
 
 #endregion
 
-namespace Cludo_Engine
+namespace CludoEngine
 {
     /// <summary>
     /// Interface for a Camera mode, which gives the ability to modify the camera position based on the Target supplied.

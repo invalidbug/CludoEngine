@@ -3,7 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Cludo_Engine.Graphics;
+using CludoEngine.Graphics;
 using FarseerPhysics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
@@ -15,11 +15,11 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
-//using Cludo_Engine.GUI;
+//using CludoEngine.GUI;
 
 #endregion
 
-namespace Cludo_Engine
+namespace CludoEngine
 {
     public static class Extensions
     {
@@ -141,7 +141,7 @@ namespace Cludo_Engine
         }
 
         // The GUI manager
-        //public Cludo_Engine.GUI.GUI gui { get; set; }
+        //public CludoEngine.GUI.GUI gui { get; set; }
 
         // Pipeline
         public Pipeline.CludoContentPipeline Pipeline { get; set; }

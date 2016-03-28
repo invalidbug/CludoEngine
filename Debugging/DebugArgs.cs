@@ -1,4 +1,4 @@
-﻿namespace Cludo_Engine.Debugging
+﻿namespace CludoEngine.Debugging
 {
     public class DebugArgs
     {

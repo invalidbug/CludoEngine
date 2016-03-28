@@ -7,7 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace Cludo_Engine.Components
+namespace CludoEngine.Components
 {
     public class Sprite : IComponent
     {

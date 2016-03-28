@@ -2,7 +2,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Cludo_Engine.Components;
+using CludoEngine.Components;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace Cludo_Engine {
+namespace CludoEngine {
     public static class CludoRenderTargetLayers {
         public static float Game() {
             return 0.5f;
@@ -86,7 +86,7 @@ namespace Cludo_Engine {
             switch (args.Added.Type) {
                 case "CircleCollider":
                 var circle = (CircleCollider)args.Added;
-                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, this.Body,new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)), Body);
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, this.Body, new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)), Body);
                 Components.Remove(Components.Count - 1);
                 Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
                 Body.OnCollision += Body_OnCollision;
@@ -117,7 +117,6 @@ namespace Cludo_Engine {
                 Body.OnCollision += Body_OnCollision;
                 Body.UserData = this;
                 break;
-
             }
         }
 

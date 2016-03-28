@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace Cludo_Engine
+namespace CludoEngine
 {
     public struct Raycast
     {

@@ -1,4 +1,4 @@
-﻿namespace Cludo_Engine.Components
+﻿namespace CludoEngine.Components
 {
     internal struct BodyProperties
     {

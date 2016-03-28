@@ -1,4 +1,4 @@
-﻿namespace Cludo_Engine.Components
+﻿namespace CludoEngine.Components
 {
     public struct CapsuleCollider : IComponent
     {

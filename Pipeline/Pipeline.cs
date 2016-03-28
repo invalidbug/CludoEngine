@@ -8,7 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace Cludo_Engine.Pipeline
+namespace CludoEngine.Pipeline
 {
     public class CludoContentPipeline
     {

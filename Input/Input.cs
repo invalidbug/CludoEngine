@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Input;
 
 #endregion
 
-namespace Cludo_Engine
+namespace CludoEngine
 {
     public class Input : IEngineFeature, IUpdateable
     {

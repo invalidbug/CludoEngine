@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cludo_Engine.Components {
+namespace CludoEngine.Components {
     public struct CircleCollider : IComponent {
         public CircleCollider(int localX, int localY, float Radius, float density)
             : this() {

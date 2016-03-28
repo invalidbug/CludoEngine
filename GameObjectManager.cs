@@ -5,7 +5,7 @@ using System.Linq;
 
 #endregion
 
-namespace Cludo_Engine
+namespace CludoEngine
 {
     public class GameObjectManager : IUpdateable
     {

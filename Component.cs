@@ -5,7 +5,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace Cludo_Engine
+namespace CludoEngine
 {
     public interface IComponent
     {

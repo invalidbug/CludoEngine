@@ -4,7 +4,7 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace Cludo_Engine {
+namespace CludoEngine {
     /// <summary>
     /// A camera mode to smooth follow a target.
     /// </summary>
