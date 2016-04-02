@@ -19,7 +19,8 @@ namespace CludoEngine {
             LoadedScenes = new Dictionary<string, Scene>();
             this.Graphics.PreparingDeviceSettings += Graphics_PreparingDeviceSettings;
             for (int i = 0; i <= 10; i++)
-                Debugging.Debug.WriteLine("Warning: Mouse Position on fullscreen applications is currently not working!");
+                Debugging.Debug.WriteLine("Warning: Mouse Position on fullscreen applications is broken. This applies to Phones also.");
+            Debugging.Debug.WriteLine("###Cludo Engine 0.7.8 BETA###\nPlease use understanding their is likely to be many bugs. Please however, support us by visiting our github and contributing to the project! You could also complain about those pesky bugs...");
         }
 
         void Graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e) {

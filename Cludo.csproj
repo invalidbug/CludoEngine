@@ -81,6 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Camera\Camera.cs" />
+    <Compile Include="ComponentSystem.cs" />
     <Compile Include="Components\CircleCollider.cs" />
     <Compile Include="ICloneable.cs" />
     <Compile Include="Particle System\BasicParticle.cs" />

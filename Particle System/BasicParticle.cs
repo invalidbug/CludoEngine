@@ -20,7 +20,7 @@ namespace CludoEngine.Particle_System {
         public Vector2 Position { get; set; }
         public Vector2 Velocity { get; set; }
 
-        public ParticleBase Clone() {
+        public override ParticleBase Clone() {
             return new BasicParticle(initialColor, initialSecondColor, _particleSize, _initialStartDuration, _scene);
         }
 
