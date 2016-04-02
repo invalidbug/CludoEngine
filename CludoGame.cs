@@ -94,6 +94,7 @@ namespace CludoEngine {
                 (Scene)
                     Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, GraphicsDevice, Window, Content);
             LoadedScenes.Add(newSceneName, a);
+
             SetScene(newSceneName);
             return a;
         }
