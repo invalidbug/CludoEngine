@@ -7,8 +7,8 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Multiple_Gameobjects {
     public class Scene1 : Scene {
-        public Scene1(SpriteBatch sb, GraphicsDevice gd, GameWindow window, ContentManager content)
-            : base(sb, gd, window, content) {
+        public Scene1(SpriteBatch sb,GraphicsDeviceManager gm, GraphicsDevice gd, GameWindow window, ContentManager content)
+            : base(sb,gm, gd, window, content) {
             // Set the worlds gravity
             Gravity = new Vector2(0, 9);
             // Create a Floor gameobject, set the position to 400, 300
@@ -57,6 +57,10 @@ namespace Multiple_Gameobjects {
     }
     public class Game1 : CludoGame {
         public override void StartGame() {
+            this.Graphics.IsFullScreen = true;
+            this.Graphics.PreferredBackBufferWidth = 1366;
+            this.Graphics.PreferredBackBufferHeight = 720;
+            this.IsMouseVisible = true;
             // Add the scene to SceneTypes
             AddScene(typeof(Scene1), "Scene1");
             // Load and set the current scene and load the Scene as Hello World

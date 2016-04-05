@@ -87,7 +87,7 @@ namespace CludoEngine
             return Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Position), 0.0f))*
                    Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Origin), 0.0f))*
                    Matrix.CreateRotationZ(Rotation)*
-                   Matrix.CreateScale(Zoom, Zoom, 1)*
+                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale, Zoom + _scene.VirtualResolutionScaler.Scale, 1) *
                    Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(Origin), 0.0f));
         }
         /// <summary>
@@ -99,8 +99,19 @@ namespace CludoEngine
             return Matrix.CreateTranslation(new Vector3(-Position, 0.0f))*
                    Matrix.CreateTranslation(new Vector3(-Origin, 0.0f))*
                    Matrix.CreateRotationZ(Rotation)*
-                   Matrix.CreateScale(Zoom, Zoom, 1)*
+                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale, Zoom + _scene.VirtualResolutionScaler.Scale, 1) *
                    Matrix.CreateTranslation(new Vector3(Origin, 0.0f));
+        }
+        /// <summary>
+        /// Get the View Matrix of the Camera. This is used with all spritebatchinstance.begin() statements that draw objects that should be affected by the Camera.
+        /// </summary>
+        /// <returns></returns>
+        public Matrix GetViewMatrixOnlyZoom() {
+            return
+                Matrix.CreateTranslation(new Vector3(-Origin, 0.0f))*
+                Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
+                    Zoom + _scene.VirtualResolutionScaler.Scale, 1);
+
         }
         /// <summary>
         /// Updates the Camera and CameraMode
@@ -114,6 +125,8 @@ namespace CludoEngine
                 // Center the Camera
                 if (CenterOnObject)
                 {
+                    // If your camera is breaking this is likely why, if your game is in fullscreen.
+                    // If you find this, please alert me.
                     Target -= new Vector2(_scene.GameWindow.ClientBounds.Width/2,
                         _scene.GameWindow.ClientBounds.Height/2);
                 }

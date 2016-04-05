@@ -9,9 +9,11 @@ using Microsoft.Xna.Framework.Input.Touch;
 namespace CludoEngine {
 
     public class Input : IEngineFeature, IUpdateable {
+        private readonly Scene _scene;
         private bool _gesturesEnabled;
 
-        public Input() {
+        public Input(Scene scene) {
+            _scene = scene;
             if (Instance == null) {
                 Instance = this;
                 GesturesEnabled = false;
@@ -32,6 +34,21 @@ namespace CludoEngine {
 
         public static Vector2 MousePosition {
             get { return Instance.MouseState.Position.ToVector2(); }
+        }
+
+        public static Vector2 WorldLastMousePosition {
+            get { return Utils.ConvertToScreenSpace(Instance._scene, Instance.LastMouseState.Position.ToVector2()); }
+        }
+
+        public static Vector2 WorldLastMousePositionOnlyZoom {
+            get { return Utils.ConvertToScreenSpaceOnlyZoom(Instance._scene, Instance.LastMouseState.Position.ToVector2()); }
+        }
+
+        public static Vector2 WorldMousePosition {
+            get { return Utils.ConvertToScreenSpace(Instance._scene, Instance.MouseState.Position.ToVector2()); }
+        }
+        public static Vector2 WorldMousePositionOnlyZoom {
+            get { return Utils.ConvertToScreenSpaceOnlyZoom(Instance._scene, Instance.MouseState.Position.ToVector2()); }
         }
 
         public bool GesturesEnabled {

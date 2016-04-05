@@ -99,8 +99,6 @@ namespace CludoEngine.Graphics
             {
                 _objectstodraw.Add(pair.Key, pair.Value);
             }
-            newdic = null;
-            z = null;
             GC.Collect();
         }
     }

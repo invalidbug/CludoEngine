@@ -10,4 +10,3 @@ D:\Google Drive\Cludo Engine 2016\Cludo Engine 2016\Cludo Engine 2016\bin\Debug\
 D:\Google Drive\Cludo Engine 2016\Cludo Engine 2016\Cludo Engine 2016\bin\Debug\TiledSharp.pdb
 D:\Google Drive\Cludo Engine 2016\Cludo Engine 2016\Cludo Engine 2016\obj\Debug\Cludo Engine.dll
 D:\Google Drive\Cludo Engine 2016\Cludo Engine 2016\Cludo Engine 2016\obj\Debug\Cludo Engine.pdb
-D:\Google Drive\Cludo Engine 2016\Cludo Engine 2016\Cludo Engine 2016\obj\Debug\Cludo.csprojResolveAssemblyReference.cache

@@ -67,7 +67,7 @@ namespace CludoEngine {
         public Scene LoadScene(string sceneTypeName, string newSceneName) {
             var a =
                 (Scene)
-                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, GraphicsDevice, Window, Content);
+                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch,Graphics, GraphicsDevice, Window, Content);
             LoadedScenes.Add(newSceneName, a);
             return a;
         }
@@ -93,7 +93,7 @@ namespace CludoEngine {
         public Scene LoadAndSetScene(string sceneTypeName, string newSceneName) {
             var a =
                 (Scene)
-                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, GraphicsDevice, Window, Content);
+                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch,Graphics, GraphicsDevice, Window, Content);
             LoadedScenes.Add(newSceneName, a);
 
             SetScene(newSceneName);
