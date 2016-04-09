@@ -1,4 +1,5 @@
-﻿using CludoEngine;
+﻿using System.Reflection.Emit;
+using CludoEngine;
 using CludoEngine.Components;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -19,6 +20,13 @@ namespace Multiple_Gameobjects {
             g.Static = true;
             // Add the gameobject to the world.
             GameObjects.AddGameObject("Floor", g);
+        }
+
+        public override void Draw(SpriteBatch sb) {
+            base.Draw(sb);
+            sb.Begin();
+            sb.Draw(this.Line, new Rectangle(Input.MousePosition.ToPoint(),new Point(75,75)),Color.White);
+            sb.End();
         }
 
         public override void Update(GameTime gt) {
@@ -52,6 +60,9 @@ namespace Multiple_Gameobjects {
                 g.AddComponent("Capsule", new CapsuleCollider(0, 0, 45, 45, 1f));
                 // Add GameObject to the world.
                 GameObjects.AddGameObject("Capsule", g);
+            }
+            if (Input.IsKeyDown(Keys.G)) {
+                this.Camera.Zoom += 0.01f;
             }
         }
     }

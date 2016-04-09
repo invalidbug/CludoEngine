@@ -93,7 +93,7 @@ namespace CludoEngine {
             //gui = new GUI.GUI(this, Pipeline);
 
 
-            Input.Instance = new Input();
+            Input.Instance = new Input(this);
             GameObjects = new GameObjectManager(this);
             TiledPrefabs = new Dictionary<string, Type>();
             World = new World(Vector2.Zero);

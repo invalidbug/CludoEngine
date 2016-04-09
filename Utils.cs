@@ -165,12 +165,7 @@ namespace CludoEngine {
             return Default;
         }
 
-        public static Vector2 ConvertToScreenSpace(Scene scene, Vector2 position) {
-            return Vector2.Transform(position, Matrix.Invert(scene.Camera.GetViewMatrix()));
-        }
-        public static Vector2 ConvertToScreenSpaceOnlyZoom(Scene scene, Vector2 position) {
-            return Vector2.Transform(position, Matrix.Invert(scene.Camera.GetViewMatrixOnlyZoom()));
-        }
+        
         public static Vector2 Rotate(Vector2 position, Vector2 origin, float angleInDegrees) {
             var angleInRadians = angleInDegrees * (Math.PI / 180);
             var cosTheta = Math.Cos(angleInRadians);

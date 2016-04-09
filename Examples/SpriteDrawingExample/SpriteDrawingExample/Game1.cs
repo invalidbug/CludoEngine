@@ -10,8 +10,8 @@ namespace SpriteDrawingExample {
     public class Scene1 : Scene {
         // Create a gameobject
         GameObject object1;
-        public Scene1(SpriteBatch sb, GraphicsDevice gd, GameWindow window, ContentManager content)
-            : base(sb, gd, window, content) {
+        public Scene1(SpriteBatch sb,GraphicsDeviceManager gm, GraphicsDevice gd, GameWindow window, ContentManager content)
+            : base(sb, gm,gd, window, content) {
             // Init the game object, place it at 300, 300
             object1 = new GameObject("Name", this, new Vector2(300, 300));
             // Lets debug it for a representation of the location of the object.

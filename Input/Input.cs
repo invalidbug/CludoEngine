@@ -36,20 +36,20 @@ namespace CludoEngine {
             get { return Instance.MouseState.Position.ToVector2(); }
         }
 
-        public static Vector2 WorldLastMousePosition {
-            get { return Utils.ConvertToScreenSpace(Instance._scene, Instance.LastMouseState.Position.ToVector2()); }
-        }
+        //public static Vector2 WorldLastMousePosition {
+        //    get { return Utils.ConvertToScreenSpace(Instance._scene, Instance.LastMouseState.Position.ToVector2()); }
+        //}
 
-        public static Vector2 WorldLastMousePositionOnlyZoom {
-            get { return Utils.ConvertToScreenSpaceOnlyZoom(Instance._scene, Instance.LastMouseState.Position.ToVector2()); }
-        }
+        //public static Vector2 WorldLastMousePositionOnlyZoom {
+        //    get { return Utils.ConvertToScreenSpaceOnlyZoom(Instance._scene, Instance.LastMouseState.Position.ToVector2()); }
+        //}
 
-        public static Vector2 WorldMousePosition {
-            get { return Utils.ConvertToScreenSpace(Instance._scene, Instance.MouseState.Position.ToVector2()); }
-        }
-        public static Vector2 WorldMousePositionOnlyZoom {
-            get { return Utils.ConvertToScreenSpaceOnlyZoom(Instance._scene, Instance.MouseState.Position.ToVector2()); }
-        }
+        //public static Vector2 WorldMousePosition {
+        //    get { return Utils.ConvertToScreenSpace(Instance._scene, Instance.MouseState.Position.ToVector2()); }
+        //}
+        //public static Vector2 WorldMousePositionOnlyZoom {
+        //    get { return Utils.ConvertToScreenSpaceOnlyZoom(Instance._scene, Instance.MouseState.Position.ToVector2()); }
+        //}
 
         public bool GesturesEnabled {
             get {
