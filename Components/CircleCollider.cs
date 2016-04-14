@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿#region
+
+using System;
+
+#endregion
 
 namespace CludoEngine.Components {
     public struct CircleCollider : IComponent {
@@ -14,6 +14,7 @@ namespace CludoEngine.Components {
             Density = density;
             Type = "CircleCollider";
         }
+
         public float Density { get; set; }
         public float Radius { get; set; }
         public int Id { get; set; }
@@ -23,6 +24,10 @@ namespace CludoEngine.Components {
         public string Type { get; set; }
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
+        }
+
+        public IComponent Clone(object[] args) {
+            throw new NotImplementedException();
         }
 
         public void Update(Microsoft.Xna.Framework.GameTime gt) {

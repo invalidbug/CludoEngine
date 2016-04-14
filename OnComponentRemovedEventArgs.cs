@@ -1,9 +1,6 @@
-﻿namespace CludoEngine
-{
-    public class OnComponentRemovedEventArgs
-    {
-        public OnComponentRemovedEventArgs(IComponent component)
-        {
+﻿namespace CludoEngine {
+    public class OnComponentRemovedEventArgs {
+        public OnComponentRemovedEventArgs(IComponent component) {
             Removed = component;
         }
 

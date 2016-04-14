@@ -61,9 +61,6 @@ namespace Multiple_Gameobjects {
                 // Add GameObject to the world.
                 GameObjects.AddGameObject("Capsule", g);
             }
-            if (Input.IsKeyDown(Keys.G)) {
-                this.Camera.Zoom += 0.01f;
-            }
         }
     }
     public class Game1 : CludoGame {

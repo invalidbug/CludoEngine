@@ -7,8 +7,9 @@ using Microsoft.Xna.Framework.Input.Touch;
 #endregion
 
 namespace CludoEngine {
-
     public class Input : IEngineFeature, IUpdateable {
+        public delegate void GestureDelegate(object sender, GestureSample args);
+
         private readonly Scene _scene;
         private bool _gesturesEnabled;
 
@@ -21,10 +22,6 @@ namespace CludoEngine {
             KeyboardState = Keyboard.GetState();
             MouseState = Mouse.GetState();
         }
-
-        public delegate void GestureDelegate(object sender, GestureSample args);
-
-        public static event GestureDelegate GestureEvent;
 
         public static Input Instance { get; set; }
 
@@ -52,9 +49,7 @@ namespace CludoEngine {
         //}
 
         public bool GesturesEnabled {
-            get {
-                return _gesturesEnabled;
-            }
+            get { return _gesturesEnabled; }
             set {
                 if (value) {
                     // Its gross but I hope it doesn't affect performance.
@@ -63,7 +58,8 @@ namespace CludoEngine {
                                                  GestureType.Pinch | GestureType.PinchComplete | GestureType.Tap |
                                                  GestureType.VerticalDrag;
                     _gesturesEnabled = true;
-                } else {
+                }
+                else {
                     TouchPanel.EnabledGestures = GestureType.None;
                     _gesturesEnabled = false;
                 }
@@ -74,6 +70,23 @@ namespace CludoEngine {
         public KeyboardState LastKeyboardState { get; set; }
         public MouseState LastMouseState { get; set; }
         public MouseState MouseState { get; set; }
+
+        public void Update(GameTime gt) {
+            LastMouseState = MouseState;
+            MouseState = Mouse.GetState();
+            LastKeyboardState = KeyboardState;
+            KeyboardState = Keyboard.GetState();
+            if (GesturesEnabled && GestureEvent != null) {
+                if (TouchPanel.IsGestureAvailable) {
+                    while (TouchPanel.IsGestureAvailable) {
+                        var g = TouchPanel.ReadGesture();
+                        GestureEvent(this, g);
+                    }
+                }
+            }
+        }
+
+        public static event GestureDelegate GestureEvent;
 
         public static bool IsKeyDown(Keys key) {
             return Instance.KeyboardState.IsKeyDown(key);
@@ -108,7 +121,7 @@ namespace CludoEngine {
         }
 
         public static Rectangle MouseBounds() {
-            return new Rectangle((int)MousePosition.X, (int)MousePosition.Y, 1, 1);
+            return new Rectangle((int) MousePosition.X, (int) MousePosition.Y, 1, 1);
         }
 
         public static Vector2 MousePositionDelta() {
@@ -158,25 +171,12 @@ namespace CludoEngine {
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
         }
 
-        public void Update(GameTime gt) {
-            LastMouseState = MouseState;
-            MouseState = Mouse.GetState();
-            LastKeyboardState = KeyboardState;
-            KeyboardState = Keyboard.GetState();
-            if (GesturesEnabled && GestureEvent != null) {
-                if (TouchPanel.IsGestureAvailable) {
-                    while (TouchPanel.IsGestureAvailable) {
-                        var g = TouchPanel.ReadGesture();
-                        GestureEvent(this, g);
-                    }
-                }
-            }
-        }
-
         #region Keyboard Is Keys
+
         #endregion
 
         #region Mouse Is Keys
+
         #endregion
     }
 }

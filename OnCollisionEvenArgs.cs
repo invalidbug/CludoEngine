@@ -1,9 +1,6 @@
-﻿namespace CludoEngine.Components
-{
-    public class OnCollisionEventArgs
-    {
-        public OnCollisionEventArgs(GameObject obj1, GameObject obj2)
-        {
+﻿namespace CludoEngine.Components {
+    public class OnCollisionEventArgs {
+        public OnCollisionEventArgs(GameObject obj1, GameObject obj2) {
             Object1 = obj1;
             Object2 = obj2;
             Canceled = false;

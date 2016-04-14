@@ -4,13 +4,10 @@ using Microsoft.Xna.Framework;
 
 #endregion
 
-namespace CludoEngine.Components
-{
-    public struct RectangleCollider : IComponent
-    {
+namespace CludoEngine.Components {
+    public struct RectangleCollider : IComponent {
         public RectangleCollider(int localX, int localY, int width, int height, float density)
-            : this()
-        {
+            : this() {
             LocalX = localX;
             LocalY = localY;
             Width = width;
@@ -28,12 +25,15 @@ namespace CludoEngine.Components
         public string Type { get; set; }
         public int Width { get; internal set; }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
-        {
+
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
         }
 
-        public void Update(GameTime gt)
-        {
+        public IComponent Clone(object[] args) {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(GameTime gt) {
         }
     }
 }

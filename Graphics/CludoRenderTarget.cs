@@ -8,95 +8,83 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace CludoEngine.Graphics
-{
-    public class CludoRenderTarget
-    {
+namespace CludoEngine.Graphics {
+    public class CludoRenderTarget {
         private Dictionary<float, List<IDrawable>> _objectstodraw;
         private Scene _scene;
         public float Layer;
         public RenderTarget2D Target;
 
-        public CludoRenderTarget(Scene scene)
-        {
+        public CludoRenderTarget(Scene scene) {
             Target = new RenderTarget2D(Scene.GraphicsDevice, scene.GameWindow.ClientBounds.Width,
                 scene.GameWindow.ClientBounds.Height);
             _scene = scene;
             _objectstodraw = new Dictionary<float, List<IDrawable>>();
             scene.GameWindow.ClientSizeChanged += GameWindow_ClientSizeChanged;
             ForceDraw = false;
-            if (BlendState == null)
+            if (BlendState == null) {
                 BlendState = BlendState.NonPremultiplied;
+            }
         }
 
-        public CludoRenderTarget(Scene scene, int width, int height)
-        {
+        public CludoRenderTarget(Scene scene, int width, int height) {
             Target = new RenderTarget2D(Scene.GraphicsDevice, width, height);
             _scene = scene;
             _objectstodraw = new Dictionary<float, List<IDrawable>>();
             ForceDraw = false;
-            if (BlendState == null)
+            if (BlendState == null) {
                 BlendState = BlendState.NonPremultiplied;
+            }
         }
 
         public BlendState BlendState { get; set; }
         public bool ForceDraw { get; set; }
 
-        public void AddDrawable(float layer, IDrawable drawable)
-        {
-            if (!_objectstodraw.ContainsKey(layer))
-            {
+        public void AddDrawable(float layer, IDrawable drawable) {
+            if (!_objectstodraw.ContainsKey(layer)) {
                 _objectstodraw.Add(layer, new List<IDrawable>());
                 UpdateList();
             }
             _objectstodraw[layer].Add(drawable);
         }
 
-        public void Draw(SpriteBatch sb)
-        {
+        public void Draw(SpriteBatch sb) {
             Scene.GraphicsDevice.SetRenderTarget(Target);
             Scene.GraphicsDevice.Clear(Color.Transparent);
             sb.Begin(SpriteSortMode.FrontToBack, BlendState, SamplerState.PointClamp, null, null, null,
                 _scene.Camera.GetViewMatrix());
-            foreach (var pair in _objectstodraw)
-            {
+            foreach (var pair in _objectstodraw) {
                 var hasToDraw = ForceDraw;
-                if (pair.Value.Count == 0)
-                {
+                if (pair.Value.Count == 0) {
                     return;
                 }
-                for (var i = 0; i < pair.Value.Count; i++)
-                {
+                for (var i = 0; i < pair.Value.Count; i++) {
                     pair.Value[i].Draw(sb);
                 }
             }
             sb.End();
         }
 
-        public void RemoveDrawable(float layer, IDrawable drawable)
-        {
-            if (!_objectstodraw.ContainsKey(layer))
+        public void RemoveDrawable(float layer, IDrawable drawable) {
+            if (!_objectstodraw.ContainsKey(layer)) {
                 return;
+            }
             _objectstodraw[layer].Remove(drawable);
         }
 
-        private void GameWindow_ClientSizeChanged(object sender, EventArgs e)
-        {
+        private void GameWindow_ClientSizeChanged(object sender, EventArgs e) {
             Target = new RenderTarget2D(Scene.GraphicsDevice, _scene.GameWindow.ClientBounds.Width,
                 _scene.GameWindow.ClientBounds.Height);
         }
 
-        private void UpdateList()
-        {
+        private void UpdateList() {
             var newdic = new Dictionary<float, List<IDrawable>>();
-            foreach (var pair in _objectstodraw)
-            {
+            foreach (var pair in _objectstodraw) {
                 newdic.Add(pair.Key, pair.Value);
             }
             var z = newdic.OrderBy(k => k.Key);
             _objectstodraw.Clear();
-            foreach (var pair in z)
-            {
+            foreach (var pair in z) {
                 _objectstodraw.Add(pair.Key, pair.Value);
             }
             GC.Collect();

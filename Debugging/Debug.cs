@@ -1,7 +1,5 @@
-﻿namespace CludoEngine.Debugging
-{
-    public static class Debug
-    {
+﻿namespace CludoEngine.Debugging {
+    public static class Debug {
         public delegate void OnDebug(object sender, DebugArgs args);
 
         public delegate void OnError(object sender, ErrorArgs args);
@@ -14,29 +12,22 @@
 
         public static event OnWarning OnWarningEvent;
 
-        public static void DoDebug(string message)
-        {
-            if (OnDebugEvent != null)
-            {
+        public static void DoDebug(string message) {
+            if (OnDebugEvent != null) {
                 OnDebugEvent(null, new DebugArgs(message));
             }
         }
 
-        public static void DoError(string reason, bool fatal)
-        {
-            if (OnErrorEvent != null)
-            {
+        public static void DoError(string reason, bool fatal) {
+            if (OnErrorEvent != null) {
                 OnErrorEvent(null, new ErrorArgs(reason, fatal));
             }
         }
 
-        public static void DoWarning(string message, int level)
-        {
-            if (OnWarningEvent != null)
-            {
+        public static void DoWarning(string message, int level) {
+            if (OnWarningEvent != null) {
                 string levelstring;
-                switch (level)
-                {
+                switch (level) {
                     case 0:
                         levelstring = "Safe To ignore";
                         break;
@@ -61,23 +52,19 @@
             }
         }
 
-        public static void Write(string text)
-        {
+        public static void Write(string text) {
             System.Diagnostics.Debug.Write(text);
         }
 
-        public static void Write(object text)
-        {
+        public static void Write(object text) {
             System.Diagnostics.Debug.Write(text.ToString());
         }
 
-        public static void WriteLine(string text)
-        {
+        public static void WriteLine(string text) {
             System.Diagnostics.Debug.Write("\n" + text);
         }
 
-        public static void WriteLine(object text)
-        {
+        public static void WriteLine(object text) {
             System.Diagnostics.Debug.Write("\n" + text);
         }
     }

@@ -1,20 +1,22 @@
-﻿using Microsoft.Xna.Framework;
+﻿#region
+
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.Xna.Framework;
+
+#endregion
 
 namespace CludoEngine {
-
     public abstract class ComponentSystem {
-
         public delegate void OnComponentAdded(object sender, OnComponentAddedEventArgs args);
 
         public delegate void OnComponentRemoved(object sender, OnComponentRemovedEventArgs args);
 
+        public Dictionary<int, IComponent> Components { get; set; }
+
         public event OnComponentAdded OnComponentAddedEvent;
 
         public event OnComponentRemoved OnComponentRemovedEvent;
-
-        public Dictionary<int, IComponent> Components { get; set; }
 
         /// <summary>
         /// Adds a component. Returns Component's ID.
@@ -25,9 +27,20 @@ namespace CludoEngine {
             component.Name = name;
             component.Id = Components.Count;
             Components.Add(component.Id, component);
-            if (OnComponentAddedEvent != null)
+            if (OnComponentAddedEvent != null) {
                 OnComponentAddedEvent(this, new OnComponentAddedEventArgs(component));
+            }
             return component.Id;
+        }
+
+        /// <summary>
+        /// Adds a component, and returns component.
+        /// </summary>
+        /// <param name="name"></param>
+        /// <param name="component"></param>
+        public IComponent AddComponentAndReturnComponent(string name, IComponent component) {
+            AddComponent(name, component);
+            return component;
         }
 
         public void DrawComponets(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
@@ -35,9 +48,11 @@ namespace CludoEngine {
             for (var i = 0; i < Components.Count; i++) {
                 if (Components.ContainsKey(i) && Components[i] != null) {
                     Components.ElementAt(i).Value.Draw(sb);
-                } else {
-                    if (OnComponentRemovedEvent != null)
+                }
+                else {
+                    if (OnComponentRemovedEvent != null) {
                         OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components.ElementAt(i).Value));
+                    }
                     Components.Remove(Components.ElementAt(i).Key);
                 }
             }
@@ -81,8 +96,9 @@ namespace CludoEngine {
         /// </summary>
         /// <param name="id"></param>
         public void RemoveComponent(int id) {
-            if (OnComponentRemovedEvent != null)
+            if (OnComponentRemovedEvent != null) {
                 OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components[id]));
+            }
             Components.Remove(id);
         }
 
@@ -97,8 +113,9 @@ namespace CludoEngine {
                 where entry.Value.Name == name
                 select entry.Key;
             foreach (var c in q) {
-                if (OnComponentRemovedEvent != null)
+                if (OnComponentRemovedEvent != null) {
                     OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components[c]));
+                }
                 Components.Remove(c);
             }
         }
@@ -114,8 +131,9 @@ namespace CludoEngine {
                 where entry.Value.Type == type
                 select entry.Key;
             foreach (var c in q) {
-                if (OnComponentRemovedEvent != null)
+                if (OnComponentRemovedEvent != null) {
                     OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components[c]));
+                }
                 Components.Remove(c);
             }
         }
@@ -125,9 +143,11 @@ namespace CludoEngine {
             for (var i = 0; i < Components.Count; i++) {
                 if (Components.ContainsKey(i) && Components[i] != null) {
                     Components.ElementAt(i).Value.Update(gt);
-                } else {
-                    if (OnComponentRemovedEvent != null)
+                }
+                else {
+                    if (OnComponentRemovedEvent != null) {
                         OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components.ElementAt(i).Value));
+                    }
                     Components.Remove(Components.ElementAt(i).Key);
                 }
             }

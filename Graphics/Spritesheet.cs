@@ -6,44 +6,35 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace CludoEngine.Graphics
-{
-    public class SpriteSheet
-    {
+namespace CludoEngine.Graphics {
+    public class SpriteSheet {
         private Pipeline.CludoContentPipeline _pipeline;
         public Dictionary<string, Rectangle> Frames;
         public string SheetName;
 
-        public SpriteSheet(string sheetname, Pipeline.CludoContentPipeline pipeline)
-        {
+        public SpriteSheet(string sheetname, Pipeline.CludoContentPipeline pipeline) {
             _pipeline = pipeline;
             SheetName = sheetname;
             Frames = new Dictionary<string, Rectangle>();
         }
 
-        public Texture2D Sheet
-        {
+        public Texture2D Sheet {
             get { return _pipeline.GetTexture(SheetName); }
         }
 
-        public void AddFrame(string name, Rectangle source)
-        {
+        public void AddFrame(string name, Rectangle source) {
             Frames.Add(name, source);
         }
 
-        public Rectangle GetFrame(string name)
-        {
+        public Rectangle GetFrame(string name) {
             return Frames[name];
         }
 
-        public void SetFrame(string name, Rectangle newSource)
-        {
-            if (Frames.ContainsKey(name))
-            {
+        public void SetFrame(string name, Rectangle newSource) {
+            if (Frames.ContainsKey(name)) {
                 Frames[name] = newSource;
             }
-            else
-            {
+            else {
                 AddFrame(name, newSource);
             }
         }

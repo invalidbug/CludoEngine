@@ -8,10 +8,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace CludoEngine.Pipeline
-{
-    public class CludoContentPipeline
-    {
+namespace CludoEngine.Pipeline {
+    public class CludoContentPipeline {
         public GraphicsDevice Device;
 
         /// <summary>
@@ -27,8 +25,7 @@ namespace CludoEngine.Pipeline
         /// <summary>
         /// Constructor
         /// </summary>
-        public CludoContentPipeline(GraphicsDevice gd)
-        {
+        public CludoContentPipeline(GraphicsDevice gd) {
             Textures = new Dictionary<string, Texture2D>();
             Fonts = new Dictionary<string, SpriteFont>();
             Device = gd;
@@ -42,8 +39,7 @@ namespace CludoEngine.Pipeline
         /// </summary>
         /// <param name="name"></param>
         /// <param name="font"></param>
-        public void AddFont(string name, SpriteFont font)
-        {
+        public void AddFont(string name, SpriteFont font) {
             Fonts.Add(name, font);
             DefaultFont = font;
         }
@@ -53,8 +49,7 @@ namespace CludoEngine.Pipeline
         /// </summary>
         /// <param name="name"></param>
         /// <param name="texture"></param>
-        public void AddTexture(string name, Texture2D texture)
-        {
+        public void AddTexture(string name, Texture2D texture) {
             Textures.Add(name, texture);
         }
 
@@ -63,14 +58,13 @@ namespace CludoEngine.Pipeline
         /// </summary>
         /// <param name="name">The name of the font.</param>
         /// <returns></returns>
-        public SpriteFont GetFont(string name)
-        {
-            if (Fonts.ContainsKey(name))
-            {
+        public SpriteFont GetFont(string name) {
+            if (Fonts.ContainsKey(name)) {
                 return Fonts[name];
             }
             throw new ArgumentException("Font: " + name + " doesn't exist! Please try loading the font first!");
         }
+
         /// <summary>
         /// Gets a font.
         /// </summary>
@@ -84,16 +78,17 @@ namespace CludoEngine.Pipeline
             LoadContent<SpriteFont>(name, scene.Content);
             return GetFont(name);
         }
+
         /// <summary>
         /// Gets a texture from the currently loaded textures.(Does not attempt to load a texture from Filesystem, try AddTexture)
         /// </summary>
         /// <param name="name">The name of the texture.</param>
         /// <returns></returns>
-        public Texture2D GetTexture(string name)
-        {
-            if (name == "null") return null;
-            if (Textures.ContainsKey(name))
-            {
+        public Texture2D GetTexture(string name) {
+            if (name == "null") {
+                return null;
+            }
+            if (Textures.ContainsKey(name)) {
                 return Textures[name];
             }
             throw new ArgumentException("Texture: " + name + " doesn't exist!");
@@ -105,18 +100,15 @@ namespace CludoEngine.Pipeline
         /// <param name="name">The name of the texture.</param>
         /// <param name="scene">The scene currently loaded.</param>
         /// <returns></returns>
-        public Texture2D GetTexture(string name,Scene scene)
-        {
-            if (scene == null) throw new ArgumentNullException("scene");
-            if (Textures.ContainsKey(name))
-            {
+        public Texture2D GetTexture(string name, Scene scene) {
+            if (scene == null) {
+                throw new ArgumentNullException("scene");
+            }
+            if (Textures.ContainsKey(name)) {
                 return Textures[name];
             }
-            else
-            {
-                LoadContent<Texture2D>(name, scene.Content, true);
-                return GetTexture(name);
-            }
+            LoadContent<Texture2D>(name, scene.Content, true);
+            return GetTexture(name);
         }
 
         /// <summary>
@@ -127,12 +119,12 @@ namespace CludoEngine.Pipeline
         /// <param name="content">Content Manager</param>
         /// <param name="addToPipeline">If the content should be added to the pipeline. Judging on performance, it'll be faster to nest this function with a AddTexture because this function in order to add to the pipeline, we have to figure out what type it is then select the right function(which in the texture case, is AddTexture).</param>
         /// <returns></returns>
-        public T LoadContent<T>(string name, ContentManager content, bool addToPipeline = true)
-        {
+        public T LoadContent<T>(string name, ContentManager content, bool addToPipeline = true) {
             var t = content.Load<T>(name);
-            if (!addToPipeline) return t;
-            switch (t.GetType().ToString())
-            {
+            if (!addToPipeline) {
+                return t;
+            }
+            switch (t.GetType().ToString()) {
                 case "Microsoft.Xna.Framework.Graphics.Texture2D":
                     AddTexture(name, t);
                     break;
@@ -152,21 +144,19 @@ namespace CludoEngine.Pipeline
         /// <param name="game">The game class.</param>
         /// <param name="addToPipeline">If the content should be added to the pipeline. Judging on performance, it'll be faster to nest this function with a AddTexture because this function in order to add to the pipeline, we have to figure out what type it is then select the right function(which in the texture case, is AddTexture).</param>
         /// <returns></returns>
-        public T LoadContent<T>(string name, Game game, bool addToPipeline = true)
-        {
+        public T LoadContent<T>(string name, Game game, bool addToPipeline = true) {
             return LoadContent<T>(name, game.Content, addToPipeline);
         }
 
-        private void AddFont(string name, object font)
-        {
+        private void AddFont(string name, object font) {
             Fonts.Add(name, (SpriteFont) font);
             DefaultFont = (SpriteFont) font;
         }
 
-        private void AddTexture(string name, object texture)
-        {
-            if (!Textures.ContainsKey(name))
+        private void AddTexture(string name, object texture) {
+            if (!Textures.ContainsKey(name)) {
                 Textures.Add(name, (Texture2D) texture);
+            }
         }
     }
 }

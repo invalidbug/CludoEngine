@@ -37,7 +37,7 @@ namespace CludoEngine {
                 return;
             }
             var difference = target - _currentCamera.Position;
-            _currentCamera.Position += difference * Delta;
+            _currentCamera.Position += difference*Delta;
         }
     }
 }

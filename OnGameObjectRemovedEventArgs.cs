@@ -1,9 +1,6 @@
-﻿namespace CludoEngine
-{
-    public class OnGameObjectRemovedEventArgs
-    {
-        public OnGameObjectRemovedEventArgs(GameObject obj)
-        {
+﻿namespace CludoEngine {
+    public class OnGameObjectRemovedEventArgs {
+        public OnGameObjectRemovedEventArgs(GameObject obj) {
             GameObject = obj;
         }
 

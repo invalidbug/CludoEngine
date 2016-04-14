@@ -6,10 +6,8 @@ using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
-namespace CludoEngine
-{
-    public interface ISequenceStep
-    {
+namespace CludoEngine {
+    public interface ISequenceStep {
         bool Done { get; set; }
 
         void Draw(SpriteBatch gt);
@@ -17,44 +15,33 @@ namespace CludoEngine
         void Update(GameTime gt);
     }
 
-    public class SceneSequence
-    {
+    public class SceneSequence {
         private List<ISequenceStep> _steps;
 
-        public SceneSequence()
-        {
+        public SceneSequence() {
             _steps = new List<ISequenceStep>();
         }
 
-        public void AddStep(ISequenceStep step)
-        {
+        public void AddStep(ISequenceStep step) {
             _steps.Add(step);
         }
 
-        public void Draw(SpriteBatch sb)
-        {
-            for(int i = 0; i < _steps.Count;i++)
-            {
-                if (_steps[i].Done)
-                {
+        public void Draw(SpriteBatch sb) {
+            for (var i = 0; i < _steps.Count; i++) {
+                if (_steps[i].Done) {
                 }
-                else
-                {
+                else {
                     _steps[i].Draw(sb);
                     return;
                 }
             }
         }
 
-        public void Update(GameTime gt)
-        {
-            foreach (var i in _steps)
-            {
-                if (i.Done)
-                {
+        public void Update(GameTime gt) {
+            foreach (var i in _steps) {
+                if (i.Done) {
                 }
-                else
-                {
+                else {
                     i.Update(gt);
                     return;
                 }

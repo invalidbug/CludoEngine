@@ -1,7 +1,6 @@
 ﻿#region
 
 using System.Collections.Generic;
-using System.Linq;
 using CludoEngine.Components;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
@@ -56,8 +55,9 @@ namespace CludoEngine {
         public bool IgnoreDebug { get; set; }
 
         public void Update(GameTime gt) {
-            if (Body.UserData == null)
+            if (Body.UserData == null) {
                 Body.UserData = this;
+            }
             UpdateComponents(gt);
         }
 
@@ -65,7 +65,7 @@ namespace CludoEngine {
             FarseerPhysics.Dynamics.Contacts.Contact contact) {
             if (OnCollisionEvent != null) {
                 OnCollisionEvent(this,
-                    new OnCollisionEventArgs((GameObject)fixtureA.Body.UserData, (GameObject)fixtureB.Body.UserData));
+                    new OnCollisionEventArgs((GameObject) fixtureA.Body.UserData, (GameObject) fixtureB.Body.UserData));
             }
             return true;
         }
@@ -73,40 +73,43 @@ namespace CludoEngine {
         private void GameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
             switch (args.Added.Type) {
                 case "CircleCollider":
-                var circle = (CircleCollider)args.Added;
-                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, this.Body, new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)), Body);
-                Components.Remove(Components.Count - 1);
-                Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
-                Body.OnCollision += Body_OnCollision;
-                Body.UserData = this;
-                break;
+                    var circle = (CircleCollider) args.Added;
+                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, Body,
+                        new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)),
+                        Body);
+                    Components.Remove(Components.Count - 1);
+                    Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
+                    Body.OnCollision += Body_OnCollision;
+                    Body.UserData = this;
+                    break;
 
                 case "RectangleCollider":
-                var rect = (RectangleCollider)args.Added;
-                FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
-                    ConvertUnits.ToSimUnits(rect.Height), rect.Density,
-                    new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
-                Components.Remove(Components.Count - 1);
-                Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
-                Body.OnCollision += Body_OnCollision;
-                Body.UserData = this;
-                break;
+                    var rect = (RectangleCollider) args.Added;
+                    FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
+                        ConvertUnits.ToSimUnits(rect.Height), rect.Density,
+                        new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
+                    Components.Remove(Components.Count - 1);
+                    Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
+                    Body.OnCollision += Body_OnCollision;
+                    Body.UserData = this;
+                    break;
 
                 case "CapsuleCollider":
-                var capsule = (CapsuleCollider)args.Added;
-                FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
-                    ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
-                    new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),
-                    Body);
-                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width / 2), capsule.Density, Body,
-                    new Vector2(0, ConvertUnits.ToSimUnits(capsule.Height / 2)));
-                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width / 2), capsule.Density, Body,
-                    new Vector2(0, ConvertUnits.ToSimUnits(-(capsule.Height / 2))));
-                Body.OnCollision += Body_OnCollision;
-                Body.UserData = this;
-                break;
+                    var capsule = (CapsuleCollider) args.Added;
+                    FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
+                        ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
+                        new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),
+                        Body);
+                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width/2), capsule.Density, Body,
+                        new Vector2(0, ConvertUnits.ToSimUnits(capsule.Height/2)));
+                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width/2), capsule.Density, Body,
+                        new Vector2(0, ConvertUnits.ToSimUnits(-(capsule.Height/2))));
+                    Body.OnCollision += Body_OnCollision;
+                    Body.UserData = this;
+                    break;
             }
         }
+
         #region Physical Properties
 
         public delegate void OnCollision(object sender, OnCollisionEventArgs args);

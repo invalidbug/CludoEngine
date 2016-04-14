@@ -25,6 +25,9 @@ namespace CludoEngine.GUI {
             ForceEntireTexture = false;
         }
 
+        public bool ForceSelection { get; set; }
+        public bool ForceEntireTexture { get; set; }
+
         public Rectangle Bounds {
             get { return new Rectangle(Position.ToPoint(), Size.ToPoint()); }
             set {
@@ -56,28 +59,30 @@ namespace CludoEngine.GUI {
         public Vector2 Position { get; set; }
         public Vector2 Size { get; set; }
         public ControlState State { get; set; }
-        public bool ForceSelection { get; set; }
-        public bool ForceEntireTexture { get; set; }
 
         public void Draw(SpriteBatch sb) {
-            if (ForceSelection)
+            if (ForceSelection) {
                 State = ControlState.Selected;
-            if (Hidden) return;
+            }
+            if (Hidden) {
+                return;
+            }
             Rectangle rect;
             if (ForceEntireTexture) {
                 rect = new Rectangle(
-                0, 0,
-                _theme.Form.Texture.Width, _theme.Form.Texture.Height);
-            } else {
+                    0, 0,
+                    _theme.Form.Texture.Width, _theme.Form.Texture.Height);
+            }
+            else {
                 rect = new Rectangle(
-                 _theme.Form.Source.X + _theme.Form.Source.Width * Convert.ToInt32(State), _theme.Form.Source.Y,
-                 _theme.Form.Source.Width, _theme.Form.Source.Height);
+                    _theme.Form.Source.X + _theme.Form.Source.Width*Convert.ToInt32(State), _theme.Form.Source.Y,
+                    _theme.Form.Source.Width, _theme.Form.Source.Height);
             }
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
             var totalScreenPos = GetTotalScreenPosition;
             sb.Draw(_theme.Form.Texture,
-                new Rectangle((int)totalScreenPos.X, (int)totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
+                new Rectangle((int) totalScreenPos.X, (int) totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
                 Color.White);
             Gui.DrawControls(sb, _controls, _selected);
             sb.End();
@@ -88,12 +93,16 @@ namespace CludoEngine.GUI {
         }
 
         public void Update(GameTime gt) {
-            if (Hidden) return;
+            if (Hidden) {
+                return;
+            }
             State = ControlState.Selected;
             _selected = Gui.UpdateControls(gt, _controls, _selected);
-            if (!Input.IsLeftMouseButtonDown() || !IsMoveable || !TestMouse()) return;
+            if (!Input.IsLeftMouseButtonDown() || !IsMoveable || !TestMouse()) {
+                return;
+            }
             if (_selected != null) {
-                if (_selected.GetType() == typeof(Form)) {
+                if (_selected.GetType() == typeof (Form)) {
                     return;
                 }
             }

@@ -17,19 +17,22 @@ namespace CludoEngine {
             Content.RootDirectory = "Content";
             SceneTypes = new Dictionary<string, Type>();
             LoadedScenes = new Dictionary<string, Scene>();
-            this.Graphics.PreparingDeviceSettings += Graphics_PreparingDeviceSettings;
-            for (int i = 0; i <= 10; i++)
-                Debugging.Debug.WriteLine("Warning: Mouse Position on fullscreen applications is broken. This applies to Phones also.");
-            Debugging.Debug.WriteLine("###Cludo Engine 0.7.8 BETA###\nPlease use understanding their is likely to be many bugs. Please however, support us by visiting our github and contributing to the project! You could also complain about those pesky bugs...");
+            Graphics.PreparingDeviceSettings += Graphics_PreparingDeviceSettings;
+            for (var i = 0; i <= 10; i++) {
+                Debugging.Debug.WriteLine(
+                    "Warning: Mouse Position on fullscreen applications is broken. This applies to Phones also.");
+            }
+            Debugging.Debug.WriteLine(
+                "###Cludo Engine 0.7.8 BETA###\nPlease use understanding their is likely to be many bugs. Please however, support us by visiting our github and contributing to the project! You could also complain about those pesky bugs...");
         }
 
-        void Graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e) {
-            e.GraphicsDeviceInformation.PresentationParameters.PresentationInterval = PresentInterval.Two;
-        }
-
-        public Scene CurrentScene { get; set; }
+        public static Scene CurrentScene { get; set; }
         public Dictionary<string, Scene> LoadedScenes { get; set; }
         private Dictionary<string, Type> SceneTypes { get; set; }
+
+        private void Graphics_PreparingDeviceSettings(object sender, PreparingDeviceSettingsEventArgs e) {
+            e.GraphicsDeviceInformation.PresentationParameters.PresentationInterval = PresentInterval.Two;
+        }
 
         /// <summary>
         /// Adds a Scene Type. This is then used with LoadScene to load a Scene and then SetScene to set the current Scene.
@@ -46,7 +49,7 @@ namespace CludoEngine {
         /// <param name="scene"></param>
         /// <param name="name"></param>
         public void AddScene(Scene scene, string name) {
-            SceneTypes.Add(name, typeof(Scene));
+            SceneTypes.Add(name, typeof (Scene));
         }
 
         /// <summary>
@@ -67,7 +70,8 @@ namespace CludoEngine {
         public Scene LoadScene(string sceneTypeName, string newSceneName) {
             var a =
                 (Scene)
-                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch,Graphics, GraphicsDevice, Window, Content);
+                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, Graphics, GraphicsDevice, Window,
+                        Content);
             LoadedScenes.Add(newSceneName, a);
             return a;
         }
@@ -87,26 +91,30 @@ namespace CludoEngine {
         public void SetScene(string loadedSceneName) {
             CurrentScene = LoadedScenes[loadedSceneName];
         }
+
         /// <summary>
         /// Loads and sets a Scene from Scene Types. Use Set scene for already Loaded Scenes.
         /// </summary>
         public Scene LoadAndSetScene(string sceneTypeName, string newSceneName) {
             var a =
                 (Scene)
-                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch,Graphics, GraphicsDevice, Window, Content);
+                    Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, Graphics, GraphicsDevice, Window,
+                        Content);
             LoadedScenes.Add(newSceneName, a);
 
             SetScene(newSceneName);
             return a;
         }
+
         /// <summary>
         /// Loads and sets a Scene from Scene Types. Use Set scene for already Loaded Scenes.
         /// </summary>
         public Scene LoadAndSetScene(string sceneTypeName) {
             var a =
-                this.LoadAndSetScene(sceneTypeName, sceneTypeName);
+                LoadAndSetScene(sceneTypeName, sceneTypeName);
             return a;
         }
+
         public virtual void StartGame() {
         }
 

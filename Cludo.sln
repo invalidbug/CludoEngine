@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Multiple Gameobjects", "Exa
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SpriteDrawingExample", "Examples\SpriteDrawingExample\SpriteDrawingExample\SpriteDrawingExample.csproj", "{374C89C4-851B-4795-A5EF-CEA73A18E01B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Particle", "..\Particle\Particle.csproj", "{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,16 @@ Global
 		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|Mixed Platforms.Build.0 = Release|x86
 		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|x86.ActiveCfg = Release|x86
 		{374C89C4-851B-4795-A5EF-CEA73A18E01B}.Release|x86.Build.0 = Release|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Debug|x86.ActiveCfg = Debug|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Debug|x86.Build.0 = Debug|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Release|Any CPU.ActiveCfg = Release|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Release|Mixed Platforms.Build.0 = Release|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Release|x86.ActiveCfg = Release|x86
+		{CCA0AFB7-0891-4F5B-A7FD-1B98F4273F11}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

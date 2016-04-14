@@ -1,10 +1,7 @@
-﻿namespace CludoEngine.Components
-{
-    public struct CapsuleCollider : IComponent
-    {
+﻿namespace CludoEngine.Components {
+    public struct CapsuleCollider : IComponent {
         public CapsuleCollider(int localX, int localY, int width, int height, float density)
-            : this()
-        {
+            : this() {
             LocalX = localX;
             LocalY = localY;
             Width = width;
@@ -22,12 +19,14 @@
         public string Type { get; set; }
         public int Width { get; internal set; }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb)
-        {
+        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
         }
 
-        public void Update(Microsoft.Xna.Framework.GameTime gt)
-        {
+        public IComponent Clone(object[] args) {
+            throw new System.NotImplementedException();
+        }
+
+        public void Update(Microsoft.Xna.Framework.GameTime gt) {
         }
     }
 }

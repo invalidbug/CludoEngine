@@ -3,31 +3,26 @@
 using FarseerPhysics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using OpenTK.Graphics.ES20;
 
 #endregion
 
-namespace CludoEngine
-{
+namespace CludoEngine {
     /// <summary>
     /// Interface for a Camera mode, which gives the ability to modify the camera position based on the Target supplied.
     /// Use CameraInstance.CameraMode = ICameraModeInstance;
     /// </summary>
-    public interface ICameraMode
-    {
+    public interface ICameraMode {
         /// <summary>
         /// Called every Update, enables movement of the Camera based on Target supplied(CameraInstance.Target = Vector2Instance)
         /// </summary>
         void Update(Vector2 target, GameTime gt);
     }
 
-    public class Camera
-    {
+    public class Camera {
         // Scene instance
         private Scene _scene;
 
-        public Camera(Scene scene, Viewport viewport)
-        {
+        public Camera(Scene scene, Viewport viewport) {
             // Origin of Camera to the middle of the screen. viewport is the window size.
             Origin = new Vector2(viewport.Width/2, viewport.Height/2);
             Zoom = 1.0f;
@@ -42,6 +37,7 @@ namespace CludoEngine
             MinClampX = 0f;
             MinClampY = 0f;
         }
+
         // The instance of ICameraMode that will be updated in Cameras Update Method
         public ICameraMode CameraMode { get; set; }
 
@@ -49,30 +45,37 @@ namespace CludoEngine
         /// If set to true, the screen, unless CameraMode affects otherwise, the target will always be the center of the screen.
         /// </summary>
         public bool CenterOnObject { get; set; }
+
         /// <summary>
         /// Enables or disables Clamping
         /// </summary>
         public bool ClampingEnabled { get; set; }
+
         public float MaxClampX { get; set; }
         public float MaxClampY { get; set; }
         public float MinClampX { get; set; }
         public float MinClampY { get; set; }
+
         /// <summary>
         /// Camera Origin, AKA the location the Camera rotates around.
         /// </summary>
         public Vector2 Origin { get; set; }
+
         /// <summary>
         /// Camera Position
         /// </summary>
         public Vector2 Position { get; set; }
+
         /// <summary>
         /// Camera Rotation
         /// </summary>
         public float Rotation { get; set; }
+
         /// <summary>
         /// The object the Camera focuses on unless CameraMode applies otherwise.
         /// </summary>
         public Vector2 Target { get; set; }
+
         /// <summary>
         /// Camera Zoom.
         /// </summary>
@@ -82,26 +85,28 @@ namespace CludoEngine
         /// Get the View Matrix of the Camera. This is used with all spritebatchinstance.begin() statements that draw objects that should be affected by the Camera. Specialized for Farseer Physics Cordinates.
         /// </summary>
         /// <returns></returns>
-        public Matrix GetFarseerViewMatrix()
-        {
+        public Matrix GetFarseerViewMatrix() {
             return Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Position), 0.0f))*
                    Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Origin), 0.0f))*
                    Matrix.CreateRotationZ(Rotation)*
-                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale, Zoom + _scene.VirtualResolutionScaler.Scale, 1) *
+                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
+                       Zoom + _scene.VirtualResolutionScaler.Scale, 1)*
                    Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(Origin), 0.0f));
         }
+
         /// <summary>
         /// Get the View Matrix of the Camera. This is used with all spritebatchinstance.begin() statements that draw objects that should be affected by the Camera.
         /// </summary>
         /// <returns></returns>
-        public Matrix GetViewMatrix()
-        {
+        public Matrix GetViewMatrix() {
             return Matrix.CreateTranslation(new Vector3(-Position, 0.0f))*
                    Matrix.CreateTranslation(new Vector3(-Origin, 0.0f))*
                    Matrix.CreateRotationZ(Rotation)*
-                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale, Zoom + _scene.VirtualResolutionScaler.Scale, 1) *
+                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
+                       Zoom + _scene.VirtualResolutionScaler.Scale, 1)*
                    Matrix.CreateTranslation(new Vector3(Origin, 0.0f));
         }
+
         /// <summary>
         /// Get the View Matrix of the Camera. This is used with all spritebatchinstance.begin() statements that draw objects that should be affected by the Camera.
         /// </summary>
@@ -111,20 +116,17 @@ namespace CludoEngine
                 Matrix.CreateTranslation(new Vector3(-Origin, 0.0f))*
                 Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
                     Zoom + _scene.VirtualResolutionScaler.Scale, 1);
-
         }
+
         /// <summary>
         /// Updates the Camera and CameraMode
         /// </summary>
         /// <param name="gt"></param>
-        public void Update(GameTime gt)
-        {
+        public void Update(GameTime gt) {
             // Make mode isn't null
-            if (CameraMode != null)
-            {
+            if (CameraMode != null) {
                 // Center the Camera
-                if (CenterOnObject)
-                {
+                if (CenterOnObject) {
                     // If your camera is breaking this is likely why, if your game is in fullscreen.
                     // If you find this, please alert me.
                     Target -= new Vector2(_scene.GameWindow.ClientBounds.Width/2,
@@ -134,8 +136,7 @@ namespace CludoEngine
                 CameraMode.Update(Target, gt);
             }
             // Is clamping enabled?
-            if (ClampingEnabled)
-            {
+            if (ClampingEnabled) {
                 // Create 2 float variables, x and y
                 float x = Position.X, y = Position.Y;
                 // let the clamping magic begin!

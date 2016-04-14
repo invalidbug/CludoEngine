@@ -2,7 +2,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Linq;
 using CludoEngine.Graphics;
 using FarseerPhysics;
@@ -16,6 +15,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
+
 //using CludoEngine.GUI;
 
 #endregion
@@ -25,7 +25,7 @@ namespace CludoEngine {
         public static Body ConvertToBody(this Texture2D me, Scene scene) {
             var polygonTexture = me;
 
-            var data = new uint[polygonTexture.Width * polygonTexture.Height];
+            var data = new uint[polygonTexture.Width*polygonTexture.Height];
             polygonTexture.GetData(data);
 
             var verts = PolygonTools.CreatePolygon(data, polygonTexture.Width, true);
@@ -37,7 +37,7 @@ namespace CludoEngine {
 
             var list = BayazitDecomposer.ConvexPartition(verts);
 
-            var vertScale = new Vector2(1f / ConvertUnits._displayUnitsToSimUnitsRatio);
+            var vertScale = new Vector2(1f/ConvertUnits._displayUnitsToSimUnitsRatio);
             foreach (var vertices in list) {
                 vertices.Scale(ref vertScale);
             }
@@ -71,14 +71,22 @@ namespace CludoEngine {
         public Texture2D Vector;
         public int Ver;
         internal VirtualResolutionScaler VirtualResolutionScaler;
-        public Scene(SpriteBatch sb, GraphicsDeviceManager graphicsDeviceManager, GraphicsDevice gd, GameWindow window, ContentManager content) {
-            VirtualResolutionScaler = new VirtualResolutionScaler(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight, gd);
+
+        public Scene(SpriteBatch sb, GraphicsDeviceManager graphicsDeviceManager, GraphicsDevice gd, GameWindow window,
+            ContentManager content) {
+            VirtualResolutionScaler = new VirtualResolutionScaler(graphicsDeviceManager.PreferredBackBufferWidth,
+                graphicsDeviceManager.PreferredBackBufferHeight, gd);
             GraphicsDevice = gd;
             SpriteBatch = sb;
             _graphicsDeviceManager = graphicsDeviceManager;
             Content = content;
             GameWindow = window;
-            GameWindow.ClientSizeChanged += (sender, args) => { VirtualResolutionScaler = new VirtualResolutionScaler(graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight, gd); };
+            GameWindow.ClientSizeChanged +=
+                (sender, args) => {
+                    VirtualResolutionScaler = new VirtualResolutionScaler(
+                        graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
+                        gd);
+                };
             RenderTargets = new Dictionary<string, CludoRenderTarget>();
             RenderTargets.Add("GUI", new CludoRenderTarget(this));
             RenderTargets.Add("Game", new CludoRenderTarget(this));
@@ -112,7 +120,7 @@ namespace CludoEngine {
             LoadedTiledPrefabs = new List<TiledPrefab>();
             Vector = Pipeline.LoadContent<Texture2D>("Vector", content, true);
             Line = new Texture2D(GraphicsDevice, 1, 1);
-            Line.SetData(new[] { Color.White });
+            Line.SetData(new[] {Color.White});
 
             StartScene();
         }
@@ -149,8 +157,9 @@ namespace CludoEngine {
 
         public void Dispose() {
             DebugView.Dispose();
-            if (Vector != null)
+            if (Vector != null) {
                 Vector.Dispose();
+            }
             foreach (var i in RenderTargets) {
                 i.Value.Target.Dispose();
             }
@@ -164,7 +173,7 @@ namespace CludoEngine {
         public virtual void Update(GameTime gt) {
             Input.Instance.Update(gt);
             //gui.Update(gt);
-            World.Step((float)gt.ElapsedGameTime.TotalMilliseconds * 0.001f);
+            World.Step((float) gt.ElapsedGameTime.TotalMilliseconds*0.001f);
             GameObjects.Update(gt);
             foreach (var prefab in LoadedTiledPrefabs) {
                 prefab.Update(gt);
@@ -182,8 +191,9 @@ namespace CludoEngine {
 
         public void CreateTiledPrefab(string name, TmxObject tmxobject) {
             try {
-                LoadedTiledPrefabs.Add((TiledPrefab)Activator.CreateInstance(TiledPrefabs[name], tmxobject, this));
-            } catch (System.Reflection.TargetInvocationException e) {
+                LoadedTiledPrefabs.Add((TiledPrefab) Activator.CreateInstance(TiledPrefabs[name], tmxobject, this));
+            }
+            catch (System.Reflection.TargetInvocationException e) {
                 throw e.InnerException;
             }
         }
@@ -204,8 +214,9 @@ namespace CludoEngine {
             foreach (var prefab in LoadedTiledPrefabs) {
                 prefab.Draw(sb);
             }
-            if (Debug)
+            if (Debug) {
                 DrawDebug(sb);
+            }
         }
 
         public void DrawDebug(SpriteBatch sb) {
@@ -223,9 +234,11 @@ namespace CludoEngine {
                     if (b.Awake) {
                         color = Color.Red;
                     }
-                    if (b.FixtureList[i].Shape == null) continue;
+                    if (b.FixtureList[i].Shape == null) {
+                        continue;
+                    }
                     if (b.UserData != null) {
-                        if (((GameObject)b.UserData).IgnoreDebug) {
+                        if (((GameObject) b.UserData).IgnoreDebug) {
                             continue;
                         }
                     }
@@ -236,11 +249,14 @@ namespace CludoEngine {
             sb.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null,
                 Camera.GetViewMatrix());
             foreach (var obj in GameObjects.Objects) {
-                sb.Draw(Vector, new Rectangle((int)obj.Value.Position.X - 32, (int)obj.Value.Position.Y - 32, 64, 64),
+                sb.Draw(Vector, new Rectangle((int) obj.Value.Position.X - 32, (int) obj.Value.Position.Y - 32, 64, 64),
                     Color.White);
                 var obj1 = obj;
-                foreach (var pos in from i in obj.Value.Body.FixtureList where i.UserData != null where !((GameObject)i.UserData).IgnoreDebug select Utils.PositionOfFixture(obj1.Value.Body, i)) {
-                    sb.Draw(Vector, new Rectangle((int)pos.X - 16, (int)pos.Y - 16, 32, 32), Color.White);
+                foreach (var pos in from i in obj.Value.Body.FixtureList
+                    where i.UserData != null
+                    where !((GameObject) i.UserData).IgnoreDebug
+                    select Utils.PositionOfFixture(obj1.Value.Body, i)) {
+                    sb.Draw(Vector, new Rectangle((int) pos.X - 16, (int) pos.Y - 16, 32, 32), Color.White);
                 }
             }
             if (Raycast.Casts != null) {
@@ -248,7 +264,8 @@ namespace CludoEngine {
                     if (cast.HitPoint != Vector2.Zero) {
                         DrawLine(SpriteBatch, cast.StartPoint, cast.HitPoint, Color.Red);
                         DrawLine(SpriteBatch, cast.HitPoint, cast.EndPoint, Color.Blue);
-                    } else {
+                    }
+                    else {
                         DrawLine(SpriteBatch, cast.StartPoint, cast.EndPoint, Color.Blue);
                     }
                 }
@@ -260,13 +277,13 @@ namespace CludoEngine {
         private void DrawLine(SpriteBatch sb, Vector2 start, Vector2 end, Color drawColor) {
             var edge = end - start;
             var angle =
-                (float)Math.Atan2(edge.Y, edge.X);
+                (float) Math.Atan2(edge.Y, edge.X);
 
             sb.Draw(Line,
                 new Rectangle(
-                    (int)start.X,
-                    (int)start.Y,
-                    (int)edge.Length(),
+                    (int) start.X,
+                    (int) start.Y,
+                    (int) edge.Length(),
                     1),
                 null,
                 drawColor,
