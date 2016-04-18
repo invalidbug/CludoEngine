@@ -40,11 +40,12 @@ Over time, there is bound to be more. This is what I will be focusing on for the
 - Farseer Physics - A library used to help implement Physics into the engine. https://farseerphysics.codeplex.com/ - Licensed under the Microsoft Permissive License (Ms-PL) v1.1. See https://farseerphysics.codeplex.com/license for more information.
 - OpenTK - A library used by Monogame, to help Render things. http://www.opentk.com/ - Licesned under the The Open Toolkit library license. See http://www.opentk.com/project/license for more information.
 
-#License
-There is 2 licenses
+License:
+The MIT License (MIT)
+Copyright (c) 2015-2016 Darin Boyer
 
-License 1(This is the license used unless stated otherwise with our sales (darinboyer2000@gmail.com )
-Creative Commons Attribution-NonCommercial 3.0 United States (CC BY-NC 3.0 US) https://creativecommons.org/licenses/by-nc/3.0/us/
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
-License 2:
-Please Contact darinboyer2000@gmail.com for sales. The default license allows commercial use and sublicense for $20
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
