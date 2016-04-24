@@ -85,6 +85,7 @@
     <Compile Include="Components\CircleCollider.cs" />
     <Compile Include="Components\ColorLerper.cs" />
     <Compile Include="Components\ParticleVelocityEffect.cs" />
+    <Compile Include="Components\RandomMovementEffect.cs" />
     <Compile Include="Components\SinglePixelParticleDrawer.cs" />
     <Compile Include="ICloneable.cs" />
     <Compile Include="Particle System\Particle.cs" />

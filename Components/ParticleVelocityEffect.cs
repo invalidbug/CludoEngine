@@ -20,6 +20,8 @@ namespace CludoEngine.Components {
             _particle = particle;
             Gravity = gravity;
             Velocity = velocity;
+            Name = "No Name";
+            Type = "ParticleVelocityEffect";
         }
 
         public void Draw(SpriteBatch sb) {

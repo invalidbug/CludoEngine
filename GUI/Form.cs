@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace CludoEngine.GUI {
     public class Form : IControl {
-        private Dictionary<string, IControl> _controls;
+        public Dictionary<string, IControl> Controls;
         private bool _inParentControl;
         private IControl _parentControl;
         private IControl _selected;
@@ -18,7 +18,7 @@ namespace CludoEngine.GUI {
 
         public Form(Theme theme) {
             _theme = theme;
-            _controls = new Dictionary<string, IControl>();
+            Controls = new Dictionary<string, IControl>();
             State = ControlState.NotSelected;
             Hidden = false;
             ForceSelection = false;
@@ -84,7 +84,7 @@ namespace CludoEngine.GUI {
             sb.Draw(_theme.Form.Texture,
                 new Rectangle((int) totalScreenPos.X, (int) totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
                 Color.White);
-            Gui.DrawControls(sb, _controls, _selected);
+            Gui.DrawControls(sb, Controls, _selected);
             sb.End();
         }
 
@@ -97,7 +97,7 @@ namespace CludoEngine.GUI {
                 return;
             }
             State = ControlState.Selected;
-            _selected = Gui.UpdateControls(gt, _controls, _selected);
+            _selected = Gui.UpdateControls(gt, Controls, _selected);
             if (!Input.IsLeftMouseButtonDown() || !IsMoveable || !TestMouse()) {
                 return;
             }
@@ -110,7 +110,7 @@ namespace CludoEngine.GUI {
         }
 
         public void AddControl(string name, IControl control) {
-            _controls.Add(name, control);
+            Controls.Add(name, control);
             control.ParentControl = this;
         }
     }

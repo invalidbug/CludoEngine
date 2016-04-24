@@ -11,8 +11,9 @@ namespace CludoEngine {
     public class CludoGame : Game {
         public GraphicsDeviceManager Graphics;
         public SpriteBatch SpriteBatch;
-
+        public static CludoGame CurrentGame;
         public CludoGame() {
+            CludoGame.CurrentGame = this;
             Graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             SceneTypes = new Dictionary<string, Type>();

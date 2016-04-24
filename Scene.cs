@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CludoEngine.Graphics;
+using CludoEngine.Pipeline;
 using FarseerPhysics;
 using FarseerPhysics.Common;
 using FarseerPhysics.Common.Decomposition;
@@ -66,7 +67,7 @@ namespace CludoEngine {
 
         public List<TiledPrefab> LoadedTiledPrefabs;
 
-        public Dictionary<string, CludoRenderTarget> RenderTargets;
+        public Dictionary<string,CludoRenderTarget> RenderTargets;
 
         public Texture2D Vector;
         public int Ver;
@@ -87,20 +88,17 @@ namespace CludoEngine {
                         graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
                         gd);
                 };
-            RenderTargets = new Dictionary<string, CludoRenderTarget>();
-            RenderTargets.Add("GUI", new CludoRenderTarget(this));
+            RenderTargets  = new Dictionary<string, CludoRenderTarget>();
             RenderTargets.Add("Game", new CludoRenderTarget(this));
+            RenderTargets.Add("DontTransform", new CludoRenderTarget(this));
             RenderTargets.Add("Lights", new CludoRenderTarget(this));
-            RenderTargets["GUI"].Layer = 0.9f;
+            RenderTargets["DontTransform"].Layer = 0.55f;
             RenderTargets["Game"].Layer = 0.5f;
             RenderTargets["Lights"].Layer = 0.6f;
-            Pipeline = new Pipeline.CludoContentPipeline(gd);
+            RenderTargets["DontTransform"].Transform = false;
+            var sortedDict = from entry in RenderTargets orderby entry.Value.Layer ascending select entry;
+            RenderTargets = sortedDict.ToDictionary(pair => pair.Key, pair => pair.Value);
             Camera = new Camera(this, gd.Viewport);
-
-
-            //gui = new GUI.GUI(this, Pipeline);
-
-
             Input.Instance = new Input(this);
             GameObjects = new GameObjectManager(this);
             TiledPrefabs = new Dictionary<string, Type>();
@@ -118,10 +116,10 @@ namespace CludoEngine {
             DebugView.AppendFlags(DebugViewFlags.PerformanceGraph);
             Debug = true;
             LoadedTiledPrefabs = new List<TiledPrefab>();
+            Pipeline = new CludoContentPipeline(gd);
             Vector = Pipeline.LoadContent<Texture2D>("Vector", content, true);
             Line = new Texture2D(GraphicsDevice, 1, 1);
             Line.SetData(new[] {Color.White});
-
             StartScene();
         }
 
@@ -170,9 +168,13 @@ namespace CludoEngine {
             GC.SuppressFinalize(this);
         }
 
+        public void ReorderDictionaries() {
+            var sortedDict = from entry in RenderTargets orderby entry.Value.Layer ascending select entry;
+            RenderTargets = sortedDict.ToDictionary(pair => pair.Key, pair => pair.Value);
+        }
+        
         public virtual void Update(GameTime gt) {
             Input.Instance.Update(gt);
-            //gui.Update(gt);
             World.Step((float) gt.ElapsedGameTime.TotalMilliseconds*0.001f);
             GameObjects.Update(gt);
             foreach (var prefab in LoadedTiledPrefabs) {

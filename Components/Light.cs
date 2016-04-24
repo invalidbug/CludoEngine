@@ -6,10 +6,9 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion
 
 namespace CludoEngine.Components {
-    public class Light : IComponent {
+    public class Light : GameObject {
         private Color _color;
 
-        private GameObject _gameobject;
 
         private float _intensity;
 
@@ -17,16 +16,16 @@ namespace CludoEngine.Components {
 
         private Sprite _sprite;
 
-        public Light(GameObject obj, Scene scene) {
-            _gameobject = obj;
+        public Light(Vector2 position, Scene scene) : base("Light",scene,position) {
             _scene = scene;
             scene.Pipeline.LoadContent<Texture2D>("BasicLightEffect", scene.Content, true);
-            _sprite = new Sprite(obj, "BasicLightEffect");
+            _sprite = new Sprite(this, "BasicLightEffect");
             scene.RenderTargets["Lights"].BlendState = BlendState.Additive;
-            obj.RenderTarget = "Lights";
-            obj.AddComponent("Texture", _sprite);
+            this.RenderTarget = "Lights";
+            this.AddComponent("Texture", _sprite);
             _color = _sprite.Color;
             _intensity = 1f;
+            this.Body.IsStatic = true;
         }
 
         public int Height {
@@ -52,21 +51,13 @@ namespace CludoEngine.Components {
             set { _sprite.Width = value; }
         }
 
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
         public string Type { get; set; }
 
-        public void Draw(SpriteBatch sb) {
+        public override  void Draw(SpriteBatch sb) {
             _sprite.Draw(sb);
         }
 
-        public IComponent Clone(object[] args) {
-            return new Light(_gameobject, _scene);
-        }
-
-        public void Update(GameTime gt) {
+        public override void Update(GameTime gt) {
             _sprite.Update(gt);
         }
     }

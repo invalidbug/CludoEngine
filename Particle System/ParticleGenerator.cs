@@ -17,7 +17,8 @@ namespace CludoEngine.Particle_System {
         private float _timeSinceLastParticle;
         public List<Particle> particles;
         public Vector2 Position;
-        public bool IgnoreSafeSpawning;
+        public bool IgnoreSafeSpawning { get; set; }
+        public bool Enabled { get; set; }
 
         public ParticleGenerator(Vector2 position, Vector2 randomnessHorizontal, Vector2 randomnessVertical,
             float particlesPerSecond, Particle particleBase, Scene scene) {
@@ -34,11 +35,12 @@ namespace CludoEngine.Particle_System {
         public void Update(GameTime gt) {
             _timeSinceLastParticle += (float)gt.ElapsedGameTime.TotalSeconds;
         Redo:
-            if (_timeSinceLastParticle >= 1000 / _particlesPerSecond / 1000) {
+            if (_timeSinceLastParticle >= 1000 / _particlesPerSecond / 1000 && Enabled) {
                 var particle = _particleBase.Clone();
                 particle.LocalPosition =
                     new Vector2(new Random().Next((int)_randomnessHorizontal.X, (int)_randomnessHorizontal.Y),
                         new Random().Next((int)_randomnessVertical.X, (int)_randomnessVertical.Y));
+                
                 particles.Add(particle);
                 _timeSinceLastParticle -= 1000 / _particlesPerSecond / 1000;
                 if (IgnoreSafeSpawning) {

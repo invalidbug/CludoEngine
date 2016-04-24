@@ -54,7 +54,7 @@ namespace CludoEngine {
 
         public bool IgnoreDebug { get; set; }
 
-        public void Update(GameTime gt) {
+        public virtual void Update(GameTime gt) {
             if (Body.UserData == null) {
                 Body.UserData = this;
             }
@@ -194,7 +194,7 @@ namespace CludoEngine {
             Target = Scene.RenderTargets[RenderTarget];
         }
 
-        public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
+        public virtual void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
             DrawComponets(sb);
         }
 

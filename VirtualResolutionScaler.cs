@@ -24,8 +24,6 @@ namespace CludoEngine {
         }
 
         private void Createscale(int virtualWidth, GraphicsDevice graphicsDevice) {
-            System.Diagnostics.Debug.WriteLine((float) graphicsDevice.Viewport.Width/virtualWidth + " " +
-                                               (float) graphicsDevice.Viewport.Width/virtualWidth);
             Scale = graphicsDevice.Viewport.Width/virtualWidth;
         }
     }

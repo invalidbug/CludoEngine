@@ -1,20 +1,64 @@
 ﻿#region
 
-using System;
-using System.Linq;
+using CludoEngine.Particle_System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Linq;
 
 #endregion
 
 namespace CludoEngine.Components {
+
     public class Sprite : IComponent {
         private Animator _animator;
         private Vector2 _drawOrigin;
+        private bool _isParticle;
+        private Particle _particle;
         private Rectangle _source;
         private Texture2D _texture;
+        public Sprite(Particle particle, string texture) {
+            _isParticle = true;
+            Name = "Unnamed";
+            Type = "Sprite";
+            Color = Color.White;
+            _particle = particle;
+            _texture = CludoGame.CurrentScene.Pipeline.GetTexture(texture);
+            Width = TextureWidth;
+            Height = TextureHeight;
+            _source = new Rectangle(0, 0, Width, Height);
+            Depth = 0.5f;
+            particle.OnComponentAddedEvent += gameObject_OnComponentAddedEvent;
+            particle.OnComponentRemovedEvent += gameObject_OnComponentRemovedEvent;
+            var results = particle.GetComponentsByType("Animator");
+            if (results.Any()) {
+                _animator = (Animator)results.ElementAt(0);
+            }
+            particle.ToggleInternalDrawing(false);
+        }
+
+        public Sprite(Particle particle, Texture2D texture) {
+            _isParticle = true;
+            Name = "Unnamed";
+            Type = "Sprite";
+            Color = Color.White;
+            _particle = particle;
+            _texture = texture;
+            Width = TextureWidth;
+            Height = TextureHeight;
+            _source = new Rectangle(0, 0, Width, Height);
+            Depth = 0.5f;
+            particle.OnComponentAddedEvent += gameObject_OnComponentAddedEvent;
+            particle.OnComponentRemovedEvent += gameObject_OnComponentRemovedEvent;
+            var results = particle.GetComponentsByType("Animator");
+            if (results.Any()) {
+                _animator = (Animator)results.ElementAt(0);
+            }
+            particle.ToggleInternalDrawing(false);
+        }
 
         public Sprite(GameObject gameObject, string texture) {
+            _isParticle = false;
             Name = "Unnamed";
             Type = "Sprite";
             Color = Color.White;
@@ -28,11 +72,12 @@ namespace CludoEngine.Components {
             gameObject.OnComponentRemovedEvent += gameObject_OnComponentRemovedEvent;
             var results = gameObject.GetComponentsByType("Animator");
             if (results.Any()) {
-                _animator = (Animator) results.ElementAt(0);
+                _animator = (Animator)results.ElementAt(0);
             }
         }
 
         public Sprite(GameObject gameObject, Texture2D texture) {
+            _isParticle = false;
             Name = "Unnamed";
             Type = "Sprite";
             Color = Color.White;
@@ -46,7 +91,7 @@ namespace CludoEngine.Components {
             gameObject.OnComponentRemovedEvent += gameObject_OnComponentRemovedEvent;
             var results = gameObject.GetComponentsByType("Animator");
             if (results.Any()) {
-                _animator = (Animator) results.ElementAt(0);
+                _animator = (Animator)results.ElementAt(0);
             }
         }
 
@@ -55,8 +100,11 @@ namespace CludoEngine.Components {
         public SpriteEffects Effects { get; set; }
         public GameObject GameObject { get; internal set; }
         public int Height { get; set; }
+        public int Id { get; set; }
         public Vector2 LocalPosition { get; set; }
         public float LocalRotation { get; set; }
+
+        public string Name { get; set; }
 
         public Rectangle SourceRectangle {
             get {
@@ -76,21 +124,20 @@ namespace CludoEngine.Components {
             get { return _texture.Width; }
         }
 
-        public int Width { get; set; }
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
         public string Type { get; set; }
-
-        public void Draw(SpriteBatch sb) {
-            sb.Draw(_texture,
-                new Rectangle(Convert.ToInt32(GameObject.Position.X),
-                    Convert.ToInt32(GameObject.Position.Y), Width, Height), SourceRectangle, Color,
-                LocalRotation + GameObject.Rotation, _drawOrigin, Effects, Depth);
-        }
-
+        public int Width { get; set; }
         public IComponent Clone(object[] args) {
+            if (args.Length > 1) {
+                if (args[1] == "Particle") {
+                    return new Sprite((Particle)args[0], _texture) {
+                        LocalPosition = LocalPosition,
+                        Color = Color,
+                        Depth = Depth,
+                        Effects = Effects,
+                        LocalRotation = LocalRotation
+                    };
+                }
+            }
             return new Sprite(GameObject, _texture) {
                 LocalPosition = LocalPosition,
                 Color = Color,
@@ -100,14 +147,26 @@ namespace CludoEngine.Components {
             };
         }
 
+        public void Draw(SpriteBatch sb) {
+            if (!_isParticle) {
+                sb.Draw(_texture,
+                    new Rectangle(Convert.ToInt32(GameObject.Position.X),
+                        Convert.ToInt32(GameObject.Position.Y), Width, Height), SourceRectangle, Color,
+                    LocalRotation + GameObject.Rotation, _drawOrigin, Effects, Depth);
+            } else {
+                sb.Draw(_texture,
+                new Rectangle(Convert.ToInt32(_particle.Position.X),
+                    Convert.ToInt32(_particle.Position.Y), (int)_particle.Size.X, (int)_particle.Size.Y), SourceRectangle, _particle.Color,
+                0, Vector2.Zero, Effects, Depth);
+            }
+        }
         public void Update(GameTime gt) {
             _drawOrigin = -LocalPosition;
-            Debugging.Debug.WriteLine(_drawOrigin);
         }
 
         private void gameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
             if (args.Added.Type == "Animator") {
-                _animator = (Animator) args.Added;
+                _animator = (Animator)args.Added;
             }
         }
 

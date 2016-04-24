@@ -24,15 +24,15 @@ namespace CludoEngine.Particle_System {
         public Texture2D Texture { get; set; }
         public Color Color { get; set; }
         public Vector2 LocalPosition { get; set; }
+        public Vector2 Position { get { return LocalPosition + Generator.Position; } }
         public Vector2 Size { get; set; }
         public bool TimeToDispose { get; internal set; }
 
         public Particle Clone() {
-            var p = new Particle(LocalPosition, Size, Color, _timetodispose);
-            p.Generator = Generator;
+            var p = new Particle(LocalPosition, Size, Color, _timetodispose) {Generator = Generator};
             p.ToggleInternalDrawing(_draws);
             foreach (var i in Components.Values) {
-                p.AddComponent(i.Name, i.Clone(new object[] {p}));
+                p.AddComponent(i.Name, i.Clone(new object[] {p,"Particle"}));
             }
             return p;
         }

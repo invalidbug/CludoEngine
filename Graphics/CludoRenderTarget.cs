@@ -25,6 +25,7 @@ namespace CludoEngine.Graphics {
             if (BlendState == null) {
                 BlendState = BlendState.NonPremultiplied;
             }
+            Transform = true;
         }
 
         public CludoRenderTarget(Scene scene, int width, int height) {
@@ -39,6 +40,7 @@ namespace CludoEngine.Graphics {
 
         public BlendState BlendState { get; set; }
         public bool ForceDraw { get; set; }
+        public bool Transform { get; set; }
 
         public void AddDrawable(float layer, IDrawable drawable) {
             if (!_objectstodraw.ContainsKey(layer)) {
@@ -51,12 +53,17 @@ namespace CludoEngine.Graphics {
         public void Draw(SpriteBatch sb) {
             Scene.GraphicsDevice.SetRenderTarget(Target);
             Scene.GraphicsDevice.Clear(Color.Transparent);
-            sb.Begin(SpriteSortMode.FrontToBack, BlendState, SamplerState.PointClamp, null, null, null,
-                _scene.Camera.GetViewMatrix());
+            if (Transform) {
+                sb.Begin(SpriteSortMode.FrontToBack, BlendState, SamplerState.PointClamp, null, null, null,
+                    _scene.Camera.GetViewMatrix());
+            }
+            else {
+                sb.Begin(SpriteSortMode.FrontToBack, BlendState, SamplerState.PointClamp);
+            }
             foreach (var pair in _objectstodraw) {
                 var hasToDraw = ForceDraw;
                 if (pair.Value.Count == 0) {
-                    return;
+                    continue;
                 }
                 for (var i = 0; i < pair.Value.Count; i++) {
                     pair.Value[i].Draw(sb);
