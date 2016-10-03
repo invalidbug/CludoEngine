@@ -30,6 +30,7 @@ namespace CludoEngine.Particle_System {
             _scene = scene;
             particles = new List<Particle>();
             IgnoreSafeSpawning = false;
+            Enabled = true;
         }
 
         public void Update(GameTime gt) {

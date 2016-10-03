@@ -21,7 +21,9 @@ namespace CludoEngine {
     public class Camera {
         // Scene instance
         private Scene _scene;
-
+        private Vector2 _position;
+        internal Vector2 PosCompensation;
+        
         public Camera(Scene scene, Viewport viewport) {
             // Origin of Camera to the middle of the screen. viewport is the window size.
             Origin = new Vector2(viewport.Width/2, viewport.Height/2);
@@ -36,6 +38,7 @@ namespace CludoEngine {
             MaxClampY = float.MaxValue;
             MinClampX = 0f;
             MinClampY = 0f;
+            PosCompensation = Vector2.Zero;
         }
 
         // The instance of ICameraMode that will be updated in Cameras Update Method
@@ -64,7 +67,15 @@ namespace CludoEngine {
         /// <summary>
         /// Camera Position
         /// </summary>
-        public Vector2 Position { get; set; }
+        public Vector2 Position {
+            get { return _position + PosCompensation; }
+            set { _position = value; }
+        }
+
+        /// <summary>
+        /// The viewport/size of the Camera.
+        /// </summary>
+        public Vector2 CameraSize { get; set; }
 
         /// <summary>
         /// Camera Rotation

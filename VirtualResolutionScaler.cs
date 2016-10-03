@@ -1,5 +1,6 @@
 ﻿#region
 
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 #endregion
@@ -7,13 +8,17 @@ using Microsoft.Xna.Framework.Graphics;
 namespace CludoEngine {
     public class VirtualResolutionScaler {
         private readonly GraphicsDevice _graphicsDevice;
+        private readonly bool _resolutionCompensation;
         private readonly int _virtualHeight;
+        private readonly Scene _scene;
         private readonly int _virtualWidth;
-
-        public VirtualResolutionScaler(int virtualWidth, int virtualHeight, GraphicsDevice graphicsDevice) {
+        private int _oldCompensation = 0;
+        public VirtualResolutionScaler(Scene scene, int virtualWidth, int virtualHeight, GraphicsDevice graphicsDevice, bool resolutionCompensation) {
+            _scene = scene;
             _virtualWidth = virtualWidth;
             _virtualHeight = virtualHeight;
             _graphicsDevice = graphicsDevice;
+            _resolutionCompensation = resolutionCompensation;
             Createscale(virtualWidth, graphicsDevice);
         }
 
@@ -24,7 +29,9 @@ namespace CludoEngine {
         }
 
         private void Createscale(int virtualWidth, GraphicsDevice graphicsDevice) {
-            Scale = graphicsDevice.Viewport.Width/virtualWidth;
+            Scale = 1.0f;
+
         }
+
     }
 }

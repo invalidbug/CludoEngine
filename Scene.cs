@@ -56,6 +56,7 @@ namespace CludoEngine {
         // The Prefabs
         public static Dictionary<string, Type> TiledPrefabs;
 
+        private RenderTarget2D buffer;
         private readonly GraphicsDeviceManager _graphicsDeviceManager;
         public ContentManager Content;
 
@@ -71,40 +72,33 @@ namespace CludoEngine {
 
         public Texture2D Vector;
         public int Ver;
-        internal VirtualResolutionScaler VirtualResolutionScaler;
 
         public Scene(SpriteBatch sb, GraphicsDeviceManager graphicsDeviceManager, GraphicsDevice gd, GameWindow window,
-            ContentManager content) {
-            VirtualResolutionScaler = new VirtualResolutionScaler(graphicsDeviceManager.PreferredBackBufferWidth,
-                graphicsDeviceManager.PreferredBackBufferHeight, gd);
+            ContentManager content, int gameWidth, int gameHeight) {
+            buffer = new RenderTarget2D(gd,graphicsDeviceManager.PreferredBackBufferWidth,graphicsDeviceManager.PreferredBackBufferHeight);
             GraphicsDevice = gd;
             SpriteBatch = sb;
             _graphicsDeviceManager = graphicsDeviceManager;
             Content = content;
             GameWindow = window;
-            GameWindow.ClientSizeChanged +=
-                (sender, args) => {
-                    VirtualResolutionScaler = new VirtualResolutionScaler(
-                        graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
-                        gd);
-                };
             RenderTargets  = new Dictionary<string, CludoRenderTarget>();
-            RenderTargets.Add("Game", new CludoRenderTarget(this));
-            RenderTargets.Add("DontTransform", new CludoRenderTarget(this));
-            RenderTargets.Add("Lights", new CludoRenderTarget(this));
+            RenderTargets.Add("Game", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
+            RenderTargets.Add("DontTransform", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
+            RenderTargets.Add("Lights", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
+            RenderTargets.Add("Background", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
+            RenderTargets["Background"].Layer = 0.2f;
             RenderTargets["DontTransform"].Layer = 0.55f;
             RenderTargets["Game"].Layer = 0.5f;
             RenderTargets["Lights"].Layer = 0.6f;
             RenderTargets["DontTransform"].Transform = false;
-            var sortedDict = from entry in RenderTargets orderby entry.Value.Layer ascending select entry;
-            RenderTargets = sortedDict.ToDictionary(pair => pair.Key, pair => pair.Value);
-            Camera = new Camera(this, gd.Viewport);
+            SortRenderTargets();
+            Camera = new Camera(this, gd.Viewport) {CameraSize = new Vector2(gameWidth, gameHeight)};
             Input.Instance = new Input(this);
             GameObjects = new GameObjectManager(this);
             TiledPrefabs = new Dictionary<string, Type>();
             World = new World(Vector2.Zero);
             Settings.AllowSleep = true;
-            Settings.VelocityIterations = 12;
+            Settings.VelocityIterations = 2;
             Settings.ContinuousPhysics = true;
             DebugView = new DebugViewXNA(World);
             DebugView.RemoveFlags(DebugViewFlags.Shape);
@@ -120,7 +114,26 @@ namespace CludoEngine {
             Vector = Pipeline.LoadContent<Texture2D>("Vector", content, true);
             Line = new Texture2D(GraphicsDevice, 1, 1);
             Line.SetData(new[] {Color.White});
+            GameWindow.ClientSizeChanged +=
+    (sender, args) => {
+        VirtualResolutionScaler = new VirtualResolutionScaler(this,
+            graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
+            gd,true);
+    };
+
+
+            VirtualResolutionScaler = new VirtualResolutionScaler(this,
+                graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
+                gd, true);
             StartScene();
+            
+        }
+
+        public VirtualResolutionScaler VirtualResolutionScaler { get; set; }
+
+        private void SortRenderTargets() {
+            var sortedDict = from entry in RenderTargets orderby entry.Value.Layer ascending select entry;
+            RenderTargets = sortedDict.ToDictionary(pair => pair.Key, pair => pair.Value);
         }
 
         // Graphics device
@@ -144,14 +157,16 @@ namespace CludoEngine {
             set { World.Gravity = value; }
         }
 
-        // The GUI manager
-        //public CludoEngine.GUI.GUI gui { get; set; }
-
         // Pipeline
         public Pipeline.CludoContentPipeline Pipeline { get; set; }
 
         // The farseerphysics world
         public World World { get; set; }
+
+        public void AddLayer(CludoRenderTarget target, string name) {
+            RenderTargets.Add(name,target);
+            SortRenderTargets();
+        }
 
         public void Dispose() {
             DebugView.Dispose();
@@ -201,15 +216,16 @@ namespace CludoEngine {
         }
 
         public virtual void Draw(SpriteBatch sb) {
+            Rectangle Resolution = new Rectangle(0,0,_graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight);
             foreach (var pair in RenderTargets) {
                 pair.Value.Draw(sb);
             }
-            GraphicsDevice.SetRenderTarget(null);
-            GraphicsDevice.Clear(ClearColor);
+            GraphicsDevice.SetRenderTarget(buffer);
+            GraphicsDevice.Clear(Color.Black);
             foreach (var pair in RenderTargets) {
                 sb.Begin(SpriteSortMode.FrontToBack, pair.Value.BlendState, SamplerState.PointClamp);
                 sb.Draw(pair.Value.Target,
-                    new Rectangle(0, 0, pair.Value.Target.Width, pair.Value.Target.Height), null,
+                    new Rectangle(0, 0, _graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight), null,
                     Color.White, 0f, Vector2.Zero, SpriteEffects.None, pair.Value.Layer);
                 sb.End();
             }
@@ -219,6 +235,12 @@ namespace CludoEngine {
             if (Debug) {
                 DrawDebug(sb);
             }
+            GraphicsDevice.SetRenderTarget(null);
+            GraphicsDevice.Clear(ClearColor);
+            sb.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp);
+            sb.Draw(buffer, new Rectangle(0, 0, buffer.Width, buffer.Height), new Rectangle(0, 0, (int)Camera.CameraSize.X, (int)Camera.CameraSize.Y), Color.White);
+            //sb.Draw(buffer,Vector2.Zero,Color.White);
+            sb.End();
         }
 
         public void DrawDebug(SpriteBatch sb) {

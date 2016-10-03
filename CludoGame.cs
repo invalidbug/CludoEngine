@@ -24,7 +24,7 @@ namespace CludoEngine {
                     "Warning: Mouse Position on fullscreen applications is broken. This applies to Phones also.");
             }
             Debugging.Debug.WriteLine(
-                "###Cludo Engine 0.7.8 BETA###\nPlease use understanding their is likely to be many bugs. Please however, support us by visiting our github and contributing to the project! You could also complain about those pesky bugs...");
+                "###Cludo Engine 0.7.914 BETA###\nPlease use understanding their is likely to be many bugs. Please however, support us by visiting our github and contributing to the project! You could also complain about those pesky bugs...");
         }
 
         public static Scene CurrentScene { get; set; }

@@ -16,8 +16,8 @@ namespace CludoEngine.Graphics {
         public RenderTarget2D Target;
 
         public CludoRenderTarget(Scene scene) {
-            Target = new RenderTarget2D(Scene.GraphicsDevice, scene.GameWindow.ClientBounds.Width,
-                scene.GameWindow.ClientBounds.Height);
+            Target = new RenderTarget2D(Scene.GraphicsDevice, 1920,
+                1080);
             _scene = scene;
             _objectstodraw = new Dictionary<float, List<IDrawable>>();
             scene.GameWindow.ClientSizeChanged += GameWindow_ClientSizeChanged;
