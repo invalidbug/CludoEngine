@@ -86,10 +86,13 @@ namespace CludoEngine {
             RenderTargets.Add("DontTransform", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
             RenderTargets.Add("Lights", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
             RenderTargets.Add("Background", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
+            RenderTargets.Add("FrontDontTransform", new CludoRenderTarget(this, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight));
             RenderTargets["Background"].Layer = 0.2f;
-            RenderTargets["DontTransform"].Layer = 0.55f;
+            RenderTargets["DontTransform"].Layer = 0.1f;
             RenderTargets["Game"].Layer = 0.5f;
-            RenderTargets["Lights"].Layer = 0.6f;
+            RenderTargets["Lights"].Layer = 0.57f;
+            RenderTargets["FrontDontTransform"].Layer = 0.9f;
+            RenderTargets["FrontDontTransform"].Transform = false;
             RenderTargets["DontTransform"].Transform = false;
             SortRenderTargets();
             Camera = new Camera(this, gd.Viewport) {CameraSize = new Vector2(gameWidth, gameHeight)};
@@ -223,7 +226,7 @@ namespace CludoEngine {
             GraphicsDevice.SetRenderTarget(buffer);
             GraphicsDevice.Clear(Color.Black);
             foreach (var pair in RenderTargets) {
-                sb.Begin(SpriteSortMode.FrontToBack, pair.Value.BlendState, SamplerState.PointClamp);
+                sb.Begin(SpriteSortMode.FrontToBack, pair.Value.BlendState, SamplerState.PointClamp, null, null, null, Camera.GetViewMatrix());
                 sb.Draw(pair.Value.Target,
                     new Rectangle(0, 0, _graphicsDeviceManager.PreferredBackBufferWidth, _graphicsDeviceManager.PreferredBackBufferHeight), null,
                     Color.White, 0f, Vector2.Zero, SpriteEffects.None, pair.Value.Layer);
@@ -237,9 +240,8 @@ namespace CludoEngine {
             }
             GraphicsDevice.SetRenderTarget(null);
             GraphicsDevice.Clear(ClearColor);
-            sb.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp);
-            sb.Draw(buffer, new Rectangle(0, 0, buffer.Width, buffer.Height), new Rectangle(0, 0, (int)Camera.CameraSize.X, (int)Camera.CameraSize.Y), Color.White);
-            //sb.Draw(buffer,Vector2.Zero,Color.White);
+            sb.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend, SamplerState.PointClamp, null, null, null, null);
+            sb.Draw(buffer, new Rectangle(0, 0, buffer.Width, buffer.Height), new Rectangle(0,0,(int)Camera.CameraSize.X, (int)Camera.CameraSize.Y), Color.White);
             sb.End();
         }
 
