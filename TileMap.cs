@@ -1,17 +1,18 @@
 ﻿#region
 
+using FarseerPhysics.Dynamics;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
-using FarseerPhysics.Dynamics;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
 using TiledSharp;
 
 #endregion
 
 namespace CludoEngine {
+
     internal struct TileSheet {
         public Texture2D Texture { get; set; }
         public int Id { get; set; }
@@ -23,7 +24,7 @@ namespace CludoEngine {
         }
     }
 
-    public class TileMap : IDrawable {
+    public class TileMap {
         private TmxMap _map;
         private Scene _scene;
         private Dictionary<int, TileSheet> _tilesets;
@@ -43,9 +44,7 @@ namespace CludoEngine {
             Draw(sb, false);
         }
 
-        public void AddToTarget() {
-            _scene.RenderTargets["Game"].AddDrawable(CludoRenderTargetLayers.Game() - 0.15F, this);
-        }
+
 
         public bool TestIfDrawNeeded() {
             return true;
@@ -71,57 +70,55 @@ namespace CludoEngine {
                         if (obj.Properties.ContainsKey("Prefab")) {
                             scene.CreateTiledPrefab(obj.Properties["Prefab"], obj);
                         }
-                    }
-                    else {
+                    } else {
                         // Its a normal collider, seperate from tilemap.
                         var name = obj.Name;
                         if (String.IsNullOrEmpty(name)) {
                             name = obj.ToString();
                         }
-                        var a = new GameObject(name, scene, new Vector2((float) obj.X, (float) obj.Y));
+                        var a = new GameObject(name, scene, new Vector2((float)obj.X, (float)obj.Y));
                         // Basic and Ellipse
                         switch (obj.ObjectType.ToString()) {
                             case "Basic":
-                                //rectangle
-                                Components.RectangleCollider c;
-                                // create the collider
-                                c = new Components.RectangleCollider((int) obj.Width/2, (int) obj.Height/2,
-                                    Convert.ToInt32((float) obj.Width), Convert.ToInt32((float) obj.Height), 1f);
-                                a.Rotation = MathHelper.ToRadians((float) obj.Rotation);
-                                a.AddComponent("", c);
-                                if (obj.Properties.ContainsKey("Static")) {
-                                    if (obj.Properties["Static"].ToLower() == "true") {
-                                        a.Static = true;
-                                    }
-                                    else {
-                                        a.Static = false;
-                                    }
+                            //rectangle
+                            Components.RectangleCollider c;
+                            // create the collider
+                            c = new Components.RectangleCollider((int)obj.Width / 2, (int)obj.Height / 2,
+                                Convert.ToInt32((float)obj.Width), Convert.ToInt32((float)obj.Height), 1f);
+                            a.Rotation = MathHelper.ToRadians((float)obj.Rotation);
+                            a.AddComponent("", c);
+                            if (obj.Properties.ContainsKey("Static")) {
+                                if (obj.Properties["Static"].ToLower() == "true") {
+                                    a.Static = true;
+                                } else {
+                                    a.Static = false;
                                 }
-                                if (obj.Properties.ContainsKey("Friction")) {
-                                    a.Body.Friction = float.Parse(obj.Properties["Friction"],
-                                        CultureInfo.InvariantCulture.NumberFormat);
-                                }
-                                if (obj.Properties.ContainsKey("Restitution")) {
-                                    a.Body.Restitution = float.Parse(obj.Properties["Restitution"],
-                                        CultureInfo.InvariantCulture.NumberFormat);
-                                }
-                                if (obj.Properties.ContainsKey("Linear Damping")) {
-                                    a.Body.LinearDamping = float.Parse(obj.Properties["Linear Damping"],
-                                        CultureInfo.InvariantCulture.NumberFormat);
-                                }
-                                if (obj.Properties.ContainsKey("Angular Damping")) {
-                                    a.Body.AngularDamping = float.Parse(obj.Properties["Angular Damping"],
-                                        CultureInfo.InvariantCulture.NumberFormat);
-                                }
-                                break;
+                            }
+                            if (obj.Properties.ContainsKey("Friction")) {
+                                a.Body.Friction = float.Parse(obj.Properties["Friction"],
+                                    CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            if (obj.Properties.ContainsKey("Restitution")) {
+                                a.Body.Restitution = float.Parse(obj.Properties["Restitution"],
+                                    CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            if (obj.Properties.ContainsKey("Linear Damping")) {
+                                a.Body.LinearDamping = float.Parse(obj.Properties["Linear Damping"],
+                                    CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            if (obj.Properties.ContainsKey("Angular Damping")) {
+                                a.Body.AngularDamping = float.Parse(obj.Properties["Angular Damping"],
+                                    CultureInfo.InvariantCulture.NumberFormat);
+                            }
+                            break;
 
                             case "Ellipse":
-                                //Ellipse
-                                break;
+                            //Ellipse
+                            break;
 
                             default:
-                                System.Diagnostics.Debug.Write("Didnt get Object type, possible TiledSharp error?");
-                                break;
+                            System.Diagnostics.Debug.Write("Didnt get Object type, possible TiledSharp error?");
+                            break;
                         }
                         scene.GameObjects.AddGameObject(name, a);
                     }
@@ -131,7 +128,7 @@ namespace CludoEngine {
 
         private void ParseColliderLayer(Scene scene) {
             // create render target
-            var target = new RenderTarget2D(Scene.GraphicsDevice, _map.Width*_map.TileWidth, _map.Height*_map.TileHeight);
+            var target = new RenderTarget2D(Scene.GraphicsDevice, _map.Width * _map.TileWidth, _map.Height * _map.TileHeight);
             var anyvisible = false;
             // for each layer...
             foreach (var i in _map.Layers) {
@@ -160,16 +157,16 @@ namespace CludoEngine {
             }
             target.Dispose();
             Scene.GraphicsDevice.SetRenderTarget(null);
-            AddToTarget();
+
         }
 
         public int GetTilesInARow(int width, int tilesize) {
-            return width/tilesize;
+            return width / tilesize;
         }
 
         public Rectangle GetSpritePosRect(int tileSetWidth, int tileNumber, int tilesize) {
-            return new Rectangle(tileNumber%GetTilesInARow(tileSetWidth, tilesize)*tilesize,
-                tileNumber/GetTilesInARow(tileSetWidth, tilesize)*tilesize, tilesize, tilesize);
+            return new Rectangle(tileNumber % GetTilesInARow(tileSetWidth, tilesize) * tilesize,
+                tileNumber / GetTilesInARow(tileSetWidth, tilesize) * tilesize, tilesize, tilesize);
         }
 
         public void Draw(SpriteBatch sb, bool drawCollisionLayer = false) {
@@ -195,8 +192,8 @@ namespace CludoEngine {
                 var sheet = _tilesets[_map.Layers.IndexOf(i)];
                 var offset = _map.Tilesets.ElementAt(sheet.Id).FirstGid;
 
-                var x = t.X*_map.TileWidth;
-                var y = t.Y*_map.TileHeight;
+                var x = t.X * _map.TileWidth;
+                var y = t.Y * _map.TileHeight;
 
                 var tilesetRec = GetSpritePosRect(sheet.Texture.Width, t.Gid - offset, 64);
                 sb.Draw(sheet.Texture, new Rectangle(x, y, 64, 64), tilesetRec, Color.White);

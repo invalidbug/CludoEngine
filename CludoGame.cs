@@ -1,17 +1,21 @@
 ﻿#region
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using CludoEngine.Graphics;
+using Microsoft.Xna.Framework.Content;
 
 #endregion
 
 namespace CludoEngine {
+
     public class CludoGame : Game {
         public GraphicsDeviceManager Graphics;
         public SpriteBatch SpriteBatch;
         public static CludoGame CurrentGame;
+
         public CludoGame() {
             CludoGame.CurrentGame = this;
             Graphics = new GraphicsDeviceManager(this);
@@ -50,7 +54,7 @@ namespace CludoEngine {
         /// <param name="scene"></param>
         /// <param name="name"></param>
         public void AddScene(Scene scene, string name) {
-            SceneTypes.Add(name, typeof (Scene));
+            SceneTypes.Add(name, typeof(Scene));
         }
 
         /// <summary>
@@ -72,7 +76,8 @@ namespace CludoEngine {
             var a =
                 (Scene)
                     Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, Graphics, GraphicsDevice, Window,
-                        Content);
+                        Content, 1080, 720);
+            a.SetDrawSystem(new NormalDrawSystem(GraphicsDevice, a, new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight)));
             LoadedScenes.Add(newSceneName, a);
             return a;
         }
@@ -100,9 +105,9 @@ namespace CludoEngine {
             var a =
                 (Scene)
                     Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, Graphics, GraphicsDevice, Window,
-                        Content);
+                        Content, 1080,720);
             LoadedScenes.Add(newSceneName, a);
-
+            a.SetDrawSystem(new NormalDrawSystem(GraphicsDevice, a, new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight)));
             SetScene(newSceneName);
             return a;
         }
@@ -122,7 +127,7 @@ namespace CludoEngine {
         protected override void Draw(GameTime gameTime) {
             base.Draw(gameTime);
             if (CurrentScene != null) {
-                CurrentScene.Draw(SpriteBatch);
+                CurrentScene.DrawSystem.Draw(SpriteBatch);
             }
         }
 

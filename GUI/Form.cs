@@ -1,13 +1,14 @@
 ﻿#region
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine.GUI {
+
     public class Form : IControl {
         public Dictionary<string, IControl> Controls;
         private bool _inParentControl;
@@ -72,17 +73,16 @@ namespace CludoEngine.GUI {
                 rect = new Rectangle(
                     0, 0,
                     _theme.Form.Texture.Width, _theme.Form.Texture.Height);
-            }
-            else {
+            } else {
                 rect = new Rectangle(
-                    _theme.Form.Source.X + _theme.Form.Source.Width*Convert.ToInt32(State), _theme.Form.Source.Y,
+                    _theme.Form.Source.X + _theme.Form.Source.Width * Convert.ToInt32(State), _theme.Form.Source.Y,
                     _theme.Form.Source.Width, _theme.Form.Source.Height);
             }
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
             var totalScreenPos = GetTotalScreenPosition;
             sb.Draw(_theme.Form.Texture,
-                new Rectangle((int) totalScreenPos.X, (int) totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
+                new Rectangle((int)totalScreenPos.X, (int)totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
                 Color.White);
             Gui.DrawControls(sb, Controls, _selected);
             sb.End();
@@ -102,7 +102,7 @@ namespace CludoEngine.GUI {
                 return;
             }
             if (_selected != null) {
-                if (_selected.GetType() == typeof (Form)) {
+                if (_selected.GetType() == typeof(Form)) {
                     return;
                 }
             }

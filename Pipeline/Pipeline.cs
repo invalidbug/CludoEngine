@@ -1,14 +1,15 @@
 ﻿#region
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine.Pipeline {
+
     public class CludoContentPipeline {
         public GraphicsDevice Device;
 
@@ -126,12 +127,12 @@ namespace CludoEngine.Pipeline {
             }
             switch (t.GetType().ToString()) {
                 case "Microsoft.Xna.Framework.Graphics.Texture2D":
-                    AddTexture(name, t);
-                    break;
+                AddTexture(name, t);
+                break;
 
                 case "Microsoft.Xna.Framework.Graphics.SpriteFont":
-                    AddFont(name, t);
-                    break;
+                AddFont(name, t);
+                break;
             }
             return t;
         }
@@ -149,13 +150,13 @@ namespace CludoEngine.Pipeline {
         }
 
         private void AddFont(string name, object font) {
-            Fonts.Add(name, (SpriteFont) font);
-            DefaultFont = (SpriteFont) font;
+            Fonts.Add(name, (SpriteFont)font);
+            DefaultFont = (SpriteFont)font;
         }
 
         private void AddTexture(string name, object texture) {
             if (!Textures.ContainsKey(name)) {
-                Textures.Add(name, (Texture2D) texture);
+                Textures.Add(name, (Texture2D)texture);
             }
         }
     }

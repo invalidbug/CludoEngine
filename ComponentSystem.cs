@@ -1,13 +1,15 @@
 ﻿#region
 
+using Microsoft.Xna.Framework;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Xna.Framework;
 
 #endregion
 
 namespace CludoEngine {
+
     public abstract class ComponentSystem {
+
         public delegate void OnComponentAdded(object sender, OnComponentAddedEventArgs args);
 
         public delegate void OnComponentRemoved(object sender, OnComponentRemovedEventArgs args);
@@ -48,8 +50,7 @@ namespace CludoEngine {
             for (var i = 0; i < Components.Count; i++) {
                 if (Components.ContainsKey(i) && Components[i] != null) {
                     Components.ElementAt(i).Value.Draw(sb);
-                }
-                else {
+                } else {
                     if (OnComponentRemovedEvent != null) {
                         OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components.ElementAt(i).Value));
                     }
@@ -143,8 +144,7 @@ namespace CludoEngine {
             for (var i = 0; i < Components.Count; i++) {
                 if (Components.ContainsKey(i) && Components[i] != null) {
                     Components.ElementAt(i).Value.Update(gt);
-                }
-                else {
+                } else {
                     if (OnComponentRemovedEvent != null) {
                         OnComponentRemovedEvent(this, new OnComponentRemovedEventArgs(Components.ElementAt(i).Value));
                     }

@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion
 
 namespace CludoEngine.Components {
+
     public class SinglePixelParticleDrawer : IComponent {
         private readonly Particle _particle;
 
@@ -17,8 +18,7 @@ namespace CludoEngine.Components {
             Type = "SinglePixelParticleDrawer";
             if (t == null) {
                 texture = CludoGame.CurrentScene.Line;
-            }
-            else {
+            } else {
                 this.texture = t;
             }
         }
@@ -36,7 +36,7 @@ namespace CludoEngine.Components {
         }
 
         public IComponent Clone(object[] args) {
-            return new SinglePixelParticleDrawer((Particle) args[0],texture);
+            return new SinglePixelParticleDrawer((Particle)args[0], texture);
         }
 
         public void Update(GameTime gt) {

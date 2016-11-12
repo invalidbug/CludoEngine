@@ -1,12 +1,13 @@
 ﻿#region
 
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine.GUI {
+
     public enum ControlState {
         NotSelected = 0,
         Hover = 1,
@@ -47,8 +48,7 @@ namespace CludoEngine.GUI {
         public static IControl UpdateControls(GameTime gt, Dictionary<string, IControl> controls, IControl selected) {
             if (selected != null) {
                 selected = CheckForNewSelectedControl(controls, selected);
-            }
-            else {
+            } else {
                 selected = CheckForNewSelectedControl(controls, selected);
             }
             if (selected != null) {
@@ -68,8 +68,7 @@ namespace CludoEngine.GUI {
                         break;
                     }
                 }
-            }
-            else {
+            } else {
                 foreach (var i in controls.Values) {
                     var foundHover = false;
                     if (i != selected) {
@@ -78,8 +77,7 @@ namespace CludoEngine.GUI {
                                 i.State = ControlState.Hover;
                             }
                             foundHover = true;
-                        }
-                        else {
+                        } else {
                             i.State = ControlState.NotSelected;
                         }
                     }

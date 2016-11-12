@@ -1,15 +1,16 @@
 ﻿#region
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using CludoEngine.Particle_System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 
 #endregion
 
 namespace CludoEngine.Components {
+
     public class ColorLerper : IComponent {
         private readonly List<Tuple<Color, float>> _colorList;
         private readonly bool _isGameObject;
@@ -23,7 +24,7 @@ namespace CludoEngine.Components {
             Name = "ColorLerperComponent";
             Type = "ColorLerperComponent";
             _colorList = new List<Tuple<Color, float>>();
-            _sprite = (Sprite) gameObject.GetComponentsByType("Sprite").ElementAt(0);
+            _sprite = (Sprite)gameObject.GetComponentsByType("Sprite").ElementAt(0);
             _isGameObject = true;
         }
 
@@ -46,8 +47,8 @@ namespace CludoEngine.Components {
             if (_colorList.Count == 0) {
                 return;
             }
-            _timesincelastcolor += (float) gt.ElapsedGameTime.TotalSeconds;
-            var progress = _timesincelastcolor/_colorList[0].Item2;
+            _timesincelastcolor += (float)gt.ElapsedGameTime.TotalSeconds;
+            var progress = _timesincelastcolor / _colorList[0].Item2;
             _dcolor = Color.Lerp(ColortochangefromColor, _colorList[0].Item1, progress);
             if (_timesincelastcolor >= _colorList[0].Item2) {
                 _colorList.RemoveAt(0);
@@ -56,14 +57,13 @@ namespace CludoEngine.Components {
             }
             if (_isGameObject) {
                 _sprite.Color = _dcolor;
-            }
-            else {
+            } else {
                 _particle.Color = _dcolor;
             }
         }
 
         public IComponent Clone(object[] args) {
-            var lerper = _isGameObject ? new ColorLerper(_sprite.GameObject) : new ColorLerper((Particle) args[0]);
+            var lerper = _isGameObject ? new ColorLerper(_sprite.GameObject) : new ColorLerper((Particle)args[0]);
             foreach (var i in _colorList) {
                 lerper.AddColor(i.Item1, i.Item2);
             }

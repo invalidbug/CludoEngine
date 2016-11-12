@@ -17,6 +17,7 @@ namespace CludoEngine.Components {
         private Particle _particle;
         private Rectangle _source;
         private Texture2D _texture;
+
         public Sprite(Particle particle, string texture) {
             _isParticle = true;
             Name = "Unnamed";
@@ -126,6 +127,7 @@ namespace CludoEngine.Components {
 
         public string Type { get; set; }
         public int Width { get; set; }
+
         public IComponent Clone(object[] args) {
             if (args.Length > 1) {
                 if (args[1] == "Particle") {
@@ -150,8 +152,8 @@ namespace CludoEngine.Components {
         public void Draw(SpriteBatch sb) {
             if (!_isParticle) {
                 sb.Draw(_texture,
-                    new Rectangle(Convert.ToInt32(GameObject.Position.X),
-                        Convert.ToInt32(GameObject.Position.Y), Width, Height), SourceRectangle, Color,
+                    new Rectangle(Convert.ToInt32(GameObject.Position.X) ,
+                        Convert.ToInt32(GameObject.Position.Y) , Width, Height), SourceRectangle, Color,
                     LocalRotation + GameObject.Rotation, _drawOrigin, Effects, Depth);
             } else {
                 sb.Draw(_texture,
@@ -160,6 +162,7 @@ namespace CludoEngine.Components {
                 0, Vector2.Zero, Effects, Depth);
             }
         }
+
         public void Update(GameTime gt) {
             _drawOrigin = -LocalPosition;
         }

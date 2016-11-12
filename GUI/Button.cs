@@ -1,12 +1,13 @@
 ﻿#region
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 #endregion
 
 namespace CludoEngine.GUI {
+
     public delegate void Click(object sender, object args);
 
     public delegate void Hover(object sender, object args);
@@ -39,7 +40,7 @@ namespace CludoEngine.GUI {
         public Rectangle Bounds {
             get {
                 var vectorBounds = GetTotalScreenPosition;
-                return new Rectangle((int) vectorBounds.X, (int) vectorBounds.Y, (int) Size.X, (int) Size.Y);
+                return new Rectangle((int)vectorBounds.X, (int)vectorBounds.Y, (int)Size.X, (int)Size.Y);
             }
             set {
                 throw new ArgumentException(
@@ -78,11 +79,11 @@ namespace CludoEngine.GUI {
             sb.End();
             sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp);
             var rect = new Rectangle(
-                _theme.Button.Source.X + _theme.Button.Source.Width*Convert.ToInt32(State), _theme.Button.Source.Y,
+                _theme.Button.Source.X + _theme.Button.Source.Width * Convert.ToInt32(State), _theme.Button.Source.Y,
                 _theme.Button.Source.Width, _theme.Button.Source.Height);
             var totalScreenPos = GetTotalScreenPosition;
             sb.Draw(_theme.Button.Texture,
-                new Rectangle((int) totalScreenPos.X, (int) totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
+                new Rectangle((int)totalScreenPos.X, (int)totalScreenPos.Y, Bounds.Width, Bounds.Height), rect,
                 Color.White);
             sb.End();
             Label.Draw(sb);
@@ -102,22 +103,19 @@ namespace CludoEngine.GUI {
                     if (ClickEvent != null) {
                         ClickEvent(this, null);
                     }
-                }
-                else {
+                } else {
                     State = ControlState.Hover;
                     if (Input.WasLeftMouseButtonDown()) {
                         if (ReleaseEvent != null) {
                             ReleaseEvent(this, null);
                         }
-                    }
-                    else {
+                    } else {
                         if (HoverEvent != null) {
                             HoverEvent(this, null);
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 State = ControlState.NotSelected;
             }
         }
@@ -129,7 +127,7 @@ namespace CludoEngine.GUI {
         public event Release ReleaseEvent;
 
         private void UpdateText() {
-            Label.Position = new Vector2(Position.X + Size.X/2 - Label.Size.X/2, Position.Y + Size.Y/2 - Label.Size.Y/2);
+            Label.Position = new Vector2(Position.X + Size.X / 2 - Label.Size.X / 2, Position.Y + Size.Y / 2 - Label.Size.Y / 2);
         }
     }
 }

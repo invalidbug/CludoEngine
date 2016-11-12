@@ -7,7 +7,9 @@ using Microsoft.Xna.Framework.Input.Touch;
 #endregion
 
 namespace CludoEngine {
+
     public class Input : IEngineFeature, IUpdateable {
+
         public delegate void GestureDelegate(object sender, GestureSample args);
 
         private readonly Scene _scene;
@@ -58,8 +60,7 @@ namespace CludoEngine {
                                                  GestureType.Pinch | GestureType.PinchComplete | GestureType.Tap |
                                                  GestureType.VerticalDrag;
                     _gesturesEnabled = true;
-                }
-                else {
+                } else {
                     TouchPanel.EnabledGestures = GestureType.None;
                     _gesturesEnabled = false;
                 }
@@ -121,7 +122,7 @@ namespace CludoEngine {
         }
 
         public static Rectangle MouseBounds() {
-            return new Rectangle((int) MousePosition.X, (int) MousePosition.Y, 1, 1);
+            return new Rectangle((int)MousePosition.X, (int)MousePosition.Y, 1, 1);
         }
 
         public static Vector2 MousePositionDelta() {

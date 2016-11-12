@@ -7,11 +7,13 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion
 
 namespace CludoEngine {
+
     /// <summary>
     /// Interface for a Camera mode, which gives the ability to modify the camera position based on the Target supplied.
     /// Use CameraInstance.CameraMode = ICameraModeInstance;
     /// </summary>
     public interface ICameraMode {
+
         /// <summary>
         /// Called every Update, enables movement of the Camera based on Target supplied(CameraInstance.Target = Vector2Instance)
         /// </summary>
@@ -19,14 +21,16 @@ namespace CludoEngine {
     }
 
     public class Camera {
+
         // Scene instance
         private Scene _scene;
+
         private Vector2 _position;
         internal Vector2 PosCompensation;
-        
+
         public Camera(Scene scene, Viewport viewport) {
             // Origin of Camera to the middle of the screen. viewport is the window size.
-            Origin = new Vector2(viewport.Width/2, viewport.Height/2);
+            Origin = new Vector2(viewport.Width / 2, viewport.Height / 2);
             Zoom = 1.0f;
             _scene = scene;
             // by default, centering on object is enabled.
@@ -73,9 +77,9 @@ namespace CludoEngine {
         }
 
         /// <summary>
-        /// The viewport/size of the Camera.
+        /// The FOV of the Camera.
         /// </summary>
-        public Vector2 CameraSize { get; set; }
+        public Vector2 FOV { get; set; }
 
         /// <summary>
         /// Camera Rotation
@@ -97,11 +101,11 @@ namespace CludoEngine {
         /// </summary>
         /// <returns></returns>
         public Matrix GetFarseerViewMatrix() {
-            return Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Position), 0.0f))*
-                   Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Origin), 0.0f))*
-                   Matrix.CreateRotationZ(Rotation)*
-                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
-                       Zoom + _scene.VirtualResolutionScaler.Scale, 1)*
+            return Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Position), 0.0f)) *
+                   Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(-Origin), 0.0f)) *
+                   Matrix.CreateRotationZ(Rotation) *
+                   Matrix.CreateScale(Zoom,
+                       Zoom , 1) *
                    Matrix.CreateTranslation(new Vector3(ConvertUnits.ToSimUnits(Origin), 0.0f));
         }
 
@@ -110,21 +114,18 @@ namespace CludoEngine {
         /// </summary>
         /// <returns></returns>
         public Matrix GetViewMatrix() {
-            return Matrix.CreateTranslation(new Vector3(-Position, 0.0f))*
-                   Matrix.CreateTranslation(new Vector3(-Origin, 0.0f))*
-                   Matrix.CreateRotationZ(Rotation)*
-                   Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
-                       Zoom + _scene.VirtualResolutionScaler.Scale, 1)*
+            return Matrix.CreateTranslation(new Vector3(-Position, 0.0f)) *
+                   Matrix.CreateTranslation(new Vector3(-Origin, 0.0f)) *
+                   Matrix.CreateRotationZ(Rotation) *
+                   Matrix.CreateScale(Zoom,
+                       Zoom, 1) *
                    Matrix.CreateTranslation(new Vector3(Origin, 0.0f));
         }
 
-        /// <summary>
-        /// Get the View Matrix of the Camera. This is used with all spritebatchinstance.begin() statements that draw objects that should be affected by the Camera.
-        /// </summary>
-        /// <returns></returns>
+
         public Matrix GetViewMatrixOnlyZoom() {
             return
-                Matrix.CreateTranslation(new Vector3(-Origin, 0.0f))*
+                Matrix.CreateTranslation(new Vector3(-Origin, 0.0f)) *
                 Matrix.CreateScale(Zoom + _scene.VirtualResolutionScaler.Scale,
                     Zoom + _scene.VirtualResolutionScaler.Scale, 1);
         }
@@ -140,8 +141,8 @@ namespace CludoEngine {
                 if (CenterOnObject) {
                     // If your camera is breaking this is likely why, if your game is in fullscreen.
                     // If you find this, please alert me.
-                    Target -= new Vector2(_scene.GameWindow.ClientBounds.Width/2,
-                        _scene.GameWindow.ClientBounds.Height/2);
+                    Target -= new Vector2(_scene.GameWindow.ClientBounds.Width / 2,
+                        _scene.GameWindow.ClientBounds.Height / 2);
                 }
                 // Update the Camera Mode
                 CameraMode.Update(Target, gt);
@@ -157,7 +158,7 @@ namespace CludoEngine {
                 Position = new Vector2(x, y);
             }
             // Lets just make sure to make sure our position is a type of Int so no weird drawing happens!
-            Position = new Vector2((int) Position.X, (int) Position.Y);
+            Position = new Vector2((int)Position.X, (int)Position.Y);
         }
     }
 }

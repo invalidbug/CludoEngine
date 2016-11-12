@@ -5,7 +5,9 @@ using Microsoft.Xna.Framework;
 #endregion
 
 namespace CludoEngine.Components {
+
     public struct RectangleCollider : IComponent {
+
         public RectangleCollider(int localX, int localY, int width, int height, float density)
             : this() {
             LocalX = localX;
@@ -24,7 +26,6 @@ namespace CludoEngine.Components {
         public string Name { get; set; }
         public string Type { get; set; }
         public int Width { get; internal set; }
-
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
         }

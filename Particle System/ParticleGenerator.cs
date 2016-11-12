@@ -1,13 +1,14 @@
 ﻿#region
 
-using System;
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine.Particle_System {
+
     public class ParticleGenerator {
         private readonly Particle _particleBase;
         private readonly float _particlesPerSecond;
@@ -41,7 +42,7 @@ namespace CludoEngine.Particle_System {
                 particle.LocalPosition =
                     new Vector2(new Random().Next((int)_randomnessHorizontal.X, (int)_randomnessHorizontal.Y),
                         new Random().Next((int)_randomnessVertical.X, (int)_randomnessVertical.Y));
-                
+
                 particles.Add(particle);
                 _timeSinceLastParticle -= 1000 / _particlesPerSecond / 1000;
                 if (IgnoreSafeSpawning) {

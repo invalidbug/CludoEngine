@@ -1,13 +1,12 @@
 ﻿#region
 
-using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 
 #endregion
 
 namespace CludoEngine.Components {
-
     #region Sprite
 
     public delegate void AnimationBegan(object sender, AnimationBeganEventArgs args);
@@ -25,6 +24,7 @@ namespace CludoEngine.Components {
     }
 
     public class AnimationIteratedArgs {
+
         public AnimationIteratedArgs(int row, int column) {
             Row = row;
             Column = column;
@@ -93,7 +93,7 @@ namespace CludoEngine.Components {
         /// Height of each frame, also known as a cell.
         /// </summary>
         public int CellHeight {
-            get { return (int) CellSize.Y; }
+            get { return (int)CellSize.Y; }
         }
 
         /// <summary>
@@ -105,7 +105,7 @@ namespace CludoEngine.Components {
         /// Width of each frame, also known as a cell.
         /// </summary>
         public int CellWidth {
-            get { return (int) CellSize.X; }
+            get { return (int)CellSize.X; }
         }
 
         /// <summary>
@@ -152,7 +152,7 @@ namespace CludoEngine.Components {
 
         // How many Cells there are.
         private Vector2 Cells {
-            get { return SpriteSheetSize/CellSize; }
+            get { return SpriteSheetSize / CellSize; }
         }
 
         // How much time there is
@@ -226,7 +226,7 @@ namespace CludoEngine.Components {
         public void Play(int startRow, bool loops) {
             CurrentYFrame = startRow;
             CurrentXFrame = 0;
-            EndXframe = (int) SpriteSheetSize.X/CellWidth - 1;
+            EndXframe = (int)SpriteSheetSize.X / CellWidth - 1;
             IsPlaying = true;
             DoesLoop = loops;
             YIncentments = false;
@@ -290,7 +290,7 @@ namespace CludoEngine.Components {
             StartXframe = 0;
             StartYframe = startRow;
             EndYframe = endRow;
-            EndXframe = (int) SpriteSheetSize.X/CellWidth - 1;
+            EndXframe = (int)SpriteSheetSize.X / CellWidth - 1;
             YIncentments = true;
             IsPlaying = true;
             DoesLoop = loops;
@@ -312,7 +312,7 @@ namespace CludoEngine.Components {
         }
 
         public IComponent Clone(object[] args) {
-            return new Animator((int) SpriteSheetSize.X, (int) SpriteSheetSize.Y, CellWidth, CellHeight, TimePerFrame);
+            return new Animator((int)SpriteSheetSize.X, (int)SpriteSheetSize.Y, CellWidth, CellHeight, TimePerFrame);
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace CludoEngine.Components {
         /// <param name="gt"></param>
         public void Update(GameTime gt) {
             if (IsPlaying) {
-                var e = (Single) gt.ElapsedGameTime.TotalSeconds;
+                var e = (Single)gt.ElapsedGameTime.TotalSeconds;
                 TimeLeft += e;
                 if (TimeLeft >= TimePerFrame) {
                     TimeLeft = 0f;
@@ -335,26 +335,22 @@ namespace CludoEngine.Components {
                                     if (AnimationLoopedEvent != null) {
                                         AnimationLoopedEvent(this, new AnimationLoopedEventArgs());
                                     }
-                                }
-                                else {
+                                } else {
                                     IsPlaying = false;
                                     if (AnimationEndedEvent != null) {
                                         AnimationEndedEvent(this, new AnimationEndedEventArgs());
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 CurrentXFrame = StartXframe;
                                 CurrentYFrame++;
                                 IteratedEvent();
                             }
-                        }
-                        else {
+                        } else {
                             CurrentXFrame++;
                             IteratedEvent();
                         }
-                    }
-                    else {
+                    } else {
                         if (CurrentXFrame == EndXframe) {
                             if (DoesLoop) {
                                 CurrentXFrame = StartXframe;
@@ -362,15 +358,13 @@ namespace CludoEngine.Components {
                                 if (AnimationLoopedEvent != null) {
                                     AnimationLoopedEvent(this, new AnimationLoopedEventArgs());
                                 }
-                            }
-                            else {
+                            } else {
                                 IsPlaying = false;
                                 if (AnimationEndedEvent != null) {
                                     AnimationEndedEvent(this, new AnimationEndedEventArgs());
                                 }
                             }
-                        }
-                        else {
+                        } else {
                             CurrentXFrame++;
                             IteratedEvent();
                         }
@@ -400,7 +394,7 @@ namespace CludoEngine.Components {
         /// </summary>
         /// <returns></returns>
         public Rectangle GetRectangle() {
-            return new Rectangle(CellWidth*CurrentXFrame, CellHeight*CurrentYFrame, CellWidth, CellHeight);
+            return new Rectangle(CellWidth * CurrentXFrame, CellHeight * CurrentYFrame, CellWidth, CellHeight);
         }
 
         #endregion Functions

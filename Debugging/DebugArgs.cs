@@ -1,5 +1,7 @@
 ﻿namespace CludoEngine.Debugging {
+
     public class DebugArgs {
+
         public DebugArgs(string message) {
             Message = message;
         }

@@ -1,11 +1,11 @@
 ﻿#region
 
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
 namespace CludoEngine {
+
     public class VirtualResolutionScaler {
         private readonly GraphicsDevice _graphicsDevice;
         private readonly bool _resolutionCompensation;
@@ -13,6 +13,7 @@ namespace CludoEngine {
         private readonly Scene _scene;
         private readonly int _virtualWidth;
         private int _oldCompensation = 0;
+
         public VirtualResolutionScaler(Scene scene, int virtualWidth, int virtualHeight, GraphicsDevice graphicsDevice, bool resolutionCompensation) {
             _scene = scene;
             _virtualWidth = virtualWidth;
@@ -30,8 +31,6 @@ namespace CludoEngine {
 
         private void Createscale(int virtualWidth, GraphicsDevice graphicsDevice) {
             Scale = 1.0f;
-
         }
-
     }
 }

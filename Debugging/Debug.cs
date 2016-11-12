@@ -1,5 +1,7 @@
 ﻿namespace CludoEngine.Debugging {
+
     public static class Debug {
+
         public delegate void OnDebug(object sender, DebugArgs args);
 
         public delegate void OnError(object sender, ErrorArgs args);
@@ -29,24 +31,24 @@
                 string levelstring;
                 switch (level) {
                     case 0:
-                        levelstring = "Safe To ignore";
-                        break;
+                    levelstring = "Safe To ignore";
+                    break;
 
                     case 1:
-                        levelstring = "Should be fixed.";
-                        break;
+                    levelstring = "Should be fixed.";
+                    break;
 
                     case 2:
-                        levelstring = "Should be fixed, could cause fatal error";
-                        break;
+                    levelstring = "Should be fixed, could cause fatal error";
+                    break;
 
                     case 3:
-                        levelstring = "Must be fixed, will cause fatal error";
-                        break;
+                    levelstring = "Must be fixed, will cause fatal error";
+                    break;
 
                     default:
-                        levelstring = "Needs attention now!";
-                        break;
+                    levelstring = "Needs attention now!";
+                    break;
                 }
                 OnWarningEvent(null, new WarningArgs(message + "\n Level:" + levelstring, level));
             }

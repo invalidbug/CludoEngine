@@ -87,6 +87,8 @@
     <Compile Include="Components\ParticleVelocityEffect.cs" />
     <Compile Include="Components\RandomMovementEffect.cs" />
     <Compile Include="Components\SinglePixelParticleDrawer.cs" />
+    <Compile Include="Graphics\IDrawSystem.cs" />
+    <Compile Include="Graphics\NormalDrawSystem.cs" />
     <Compile Include="ICloneable.cs" />
     <Compile Include="Particle System\Particle.cs" />
     <Compile Include="Particle System\ParticleGenerator.cs" />
@@ -99,7 +101,6 @@
     <Compile Include="Components\CapsuleCollider.cs" />
     <Compile Include="Components\RectangleCollider.cs" />
     <Compile Include="Components\Light.cs" />
-    <Compile Include="Graphics\CludoRenderTarget.cs" />
     <Compile Include="GUI\Button.cs" />
     <Compile Include="GUI\Form.cs" />
     <Compile Include="GUI\GUI.cs" />
@@ -117,7 +118,6 @@
     <Compile Include="GameObject.cs" />
     <Compile Include="GameObjectManager.cs" />
     <Compile Include="Graphics\Spritesheet.cs" />
-    <Compile Include="IDrawable.cs" />
     <Compile Include="Input\Input.cs" />
     <Compile Include="IUpdateable.cs" />
     <Compile Include="OnComponentAddedEventArgs.cs" />

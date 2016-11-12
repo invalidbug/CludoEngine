@@ -5,12 +5,15 @@ using Microsoft.Xna.Framework;
 #endregion
 
 namespace CludoEngine {
+
     /// <summary>
     /// A camera mode to smooth follow a target.
     /// </summary>
     public struct SmoothFollowMode : ICameraMode {
+
         // Camera instance
         private Camera _currentCamera;
+
         // Last camera position
         private Vector2 _lastPosition;
 
@@ -24,6 +27,7 @@ namespace CludoEngine {
         public delegate void TargetReached();
 
         public event TargetReached TargetReachedEvent;
+
         public float Delta { get; set; }
 
         public void Update(Vector2 target, GameTime gt) {
@@ -37,7 +41,7 @@ namespace CludoEngine {
                 return;
             }
             var difference = target - _currentCamera.Position;
-            _currentCamera.Position += difference*Delta;
+            _currentCamera.Position += difference * Delta;
         }
     }
 }

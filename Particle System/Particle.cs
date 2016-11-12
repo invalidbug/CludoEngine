@@ -1,12 +1,13 @@
 ﻿#region
 
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine.Particle_System {
+
     public class Particle : ComponentSystem, ICloneable<Particle> {
         private readonly float _timetodispose;
         private float _currentlivetime;
@@ -29,10 +30,10 @@ namespace CludoEngine.Particle_System {
         public bool TimeToDispose { get; internal set; }
 
         public Particle Clone() {
-            var p = new Particle(LocalPosition, Size, Color, _timetodispose) {Generator = Generator};
+            var p = new Particle(LocalPosition, Size, Color, _timetodispose) { Generator = Generator };
             p.ToggleInternalDrawing(_draws);
             foreach (var i in Components.Values) {
-                p.AddComponent(i.Name, i.Clone(new object[] {p,"Particle"}));
+                p.AddComponent(i.Name, i.Clone(new object[] { p, "Particle" }));
             }
             return p;
         }
@@ -48,7 +49,7 @@ namespace CludoEngine.Particle_System {
 
         public void Update(GameTime gt) {
             UpdateComponents(gt);
-            _currentlivetime += (float) gt.ElapsedGameTime.TotalSeconds;
+            _currentlivetime += (float)gt.ElapsedGameTime.TotalSeconds;
             if (_currentlivetime >= _timetodispose) {
                 TimeToDispose = true;
             }

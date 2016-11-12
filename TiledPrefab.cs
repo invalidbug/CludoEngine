@@ -6,6 +6,7 @@ using TiledSharp;
 #endregion
 
 namespace CludoEngine {
+
     public abstract class TiledPrefab : IUpdateable {
         private TmxObject _e;
         private Scene _scene;

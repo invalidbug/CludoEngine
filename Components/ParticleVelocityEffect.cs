@@ -1,6 +1,5 @@
 ﻿#region
 
-using System;
 using CludoEngine.Particle_System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -8,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 #endregion
 
 namespace CludoEngine.Components {
+
     public class ParticleVelocityEffect : IComponent {
         private readonly Particle _particle;
         public int Id { get; set; }
@@ -16,7 +16,7 @@ namespace CludoEngine.Components {
         public Vector2 Velocity { get; set; }
         public Vector2 Gravity;
 
-        public ParticleVelocityEffect(Particle particle,Vector2 velocity,Vector2 gravity) {
+        public ParticleVelocityEffect(Particle particle, Vector2 velocity, Vector2 gravity) {
             _particle = particle;
             Gravity = gravity;
             Velocity = velocity;
@@ -28,12 +28,12 @@ namespace CludoEngine.Components {
         }
 
         public IComponent Clone(object[] args) {
-            return new ParticleVelocityEffect((Particle)args[0],this.Velocity,this.Gravity);
+            return new ParticleVelocityEffect((Particle)args[0], this.Velocity, this.Gravity);
         }
 
         public void Update(GameTime gt) {
-            Velocity -= (Gravity*(float)gt.ElapsedGameTime.TotalSeconds);
-            _particle.LocalPosition += Velocity*(float) gt.ElapsedGameTime.TotalSeconds;
+            Velocity -= (Gravity * (float)gt.ElapsedGameTime.TotalSeconds);
+            _particle.LocalPosition += Velocity * (float)gt.ElapsedGameTime.TotalSeconds;
         }
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace CludoEngine {
+
     public class OnGameObjectAddedEventArgs {
+
         public OnGameObjectAddedEventArgs(GameObject obj) {
             GameObject = obj;
         }

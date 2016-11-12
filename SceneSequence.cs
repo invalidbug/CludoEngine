@@ -1,12 +1,13 @@
 ﻿#region
 
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine {
+
     public interface ISequenceStep {
         bool Done { get; set; }
 
@@ -29,8 +30,7 @@ namespace CludoEngine {
         public void Draw(SpriteBatch sb) {
             for (var i = 0; i < _steps.Count; i++) {
                 if (_steps[i].Done) {
-                }
-                else {
+                } else {
                     _steps[i].Draw(sb);
                     return;
                 }
@@ -40,8 +40,7 @@ namespace CludoEngine {
         public void Update(GameTime gt) {
             foreach (var i in _steps) {
                 if (i.Done) {
-                }
-                else {
+                } else {
                     i.Update(gt);
                     return;
                 }

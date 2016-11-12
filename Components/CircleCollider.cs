@@ -5,7 +5,9 @@ using System;
 #endregion
 
 namespace CludoEngine.Components {
+
     public struct CircleCollider : IComponent {
+
         public CircleCollider(int localX, int localY, float Radius, float density)
             : this() {
             LocalX = localX;

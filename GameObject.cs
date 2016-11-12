@@ -1,28 +1,15 @@
 ﻿#region
 
-using System.Collections.Generic;
 using CludoEngine.Components;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine {
-    public static class CludoRenderTargetLayers {
-        public static float Game() {
-            return 0.5f;
-        }
-
-        public static float Gui() {
-            return 0.9f;
-        }
-
-        public static float Lights() {
-            return 0.6f;
-        }
-    }
 
     /// <summary>
     /// The base GameObject class. This class will not handle collision drawing sprites or animation or even scripting.
@@ -33,23 +20,20 @@ namespace CludoEngine {
     /// iterate through a specific type of Component and thats all, just for ease of use. When an object is added the ID is
     /// set to the count of the components +1.
     /// </summary>
-    public class GameObject : ComponentSystem, IUpdateable, IDrawable {
+    public class GameObject : ComponentSystem, IUpdateable {
+
         public GameObject(string name, Scene scene, Vector2 position) {
             OnComponentAddedEvent += GameObject_OnComponentAddedEvent;
-            Rendertarget = "Game";
-            RendertargetLayer = CludoRenderTargetLayers.Game();
             Components = new Dictionary<int, IComponent>();
             Name = name;
             Scene = scene;
             Tags = new List<string>();
-            AddToTarget();
+
             Body = BodyFactory.CreateBody(scene.World, ConvertUnits.ToSimUnits(position), 0f, this);
             Body.UserData = this;
             Body.IsStatic = false;
             Position = position;
-            _lastPosition = Vector2.Zero;
             Body.OnCollision += Body_OnCollision;
-            _lastRotation = 2.232f;
         }
 
         public bool IgnoreDebug { get; set; }
@@ -65,7 +49,7 @@ namespace CludoEngine {
             FarseerPhysics.Dynamics.Contacts.Contact contact) {
             if (OnCollisionEvent != null) {
                 OnCollisionEvent(this,
-                    new OnCollisionEventArgs((GameObject) fixtureA.Body.UserData, (GameObject) fixtureB.Body.UserData));
+                    new OnCollisionEventArgs((GameObject)fixtureA.Body.UserData, (GameObject)fixtureB.Body.UserData));
             }
             return true;
         }
@@ -73,40 +57,40 @@ namespace CludoEngine {
         private void GameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
             switch (args.Added.Type) {
                 case "CircleCollider":
-                    var circle = (CircleCollider) args.Added;
-                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, Body,
-                        new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)),
-                        Body);
-                    Components.Remove(Components.Count - 1);
-                    Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
-                    Body.OnCollision += Body_OnCollision;
-                    Body.UserData = this;
-                    break;
+                var circle = (CircleCollider)args.Added;
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, Body,
+                    new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)),
+                    Body);
+                Components.Remove(Components.Count - 1);
+                Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
+                Body.OnCollision += Body_OnCollision;
+                Body.UserData = this;
+                break;
 
                 case "RectangleCollider":
-                    var rect = (RectangleCollider) args.Added;
-                    FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
-                        ConvertUnits.ToSimUnits(rect.Height), rect.Density,
-                        new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
-                    Components.Remove(Components.Count - 1);
-                    Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
-                    Body.OnCollision += Body_OnCollision;
-                    Body.UserData = this;
-                    break;
+                var rect = (RectangleCollider)args.Added;
+                FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
+                    ConvertUnits.ToSimUnits(rect.Height), rect.Density,
+                    new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
+                Components.Remove(Components.Count - 1);
+                Body.FixtureList[Body.FixtureList.Count - 1].UserData = this;
+                Body.OnCollision += Body_OnCollision;
+                Body.UserData = this;
+                break;
 
                 case "CapsuleCollider":
-                    var capsule = (CapsuleCollider) args.Added;
-                    FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
-                        ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
-                        new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),
-                        Body);
-                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width/2), capsule.Density, Body,
-                        new Vector2(0, ConvertUnits.ToSimUnits(capsule.Height/2)));
-                    FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width/2), capsule.Density, Body,
-                        new Vector2(0, ConvertUnits.ToSimUnits(-(capsule.Height/2))));
-                    Body.OnCollision += Body_OnCollision;
-                    Body.UserData = this;
-                    break;
+                var capsule = (CapsuleCollider)args.Added;
+                FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
+                    ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
+                    new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),
+                    Body);
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width / 2), capsule.Density, Body,
+                    new Vector2(0, ConvertUnits.ToSimUnits(capsule.Height / 2)));
+                FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(capsule.Width / 2), capsule.Density, Body,
+                    new Vector2(0, ConvertUnits.ToSimUnits(-(capsule.Height / 2))));
+                Body.OnCollision += Body_OnCollision;
+                Body.UserData = this;
+                break;
             }
         }
 
@@ -151,66 +135,23 @@ namespace CludoEngine {
         #region GameObjectSpecific
 
         public Body Body { get; set; }
-        public int Id { get; set; }
+        public int Id { get { return Body.BodyId; } }
         public string Name { get; set; }
         public Scene Scene { get; set; }
         public List<string> Tags { get; set; }
 
         #endregion GameObjectSpecific
 
-        #region RenderTargetInformation
+        #region DrawingImplementation
 
-        public string RenderTarget {
-            get { return Rendertarget; }
-            set {
-                RemoveFromTarget(RendertargetLayer, Rendertarget);
-                Rendertarget = value;
-                AddToTarget();
-            }
-        }
-
-        public float RenderTargetLayer {
-            get { return RendertargetLayer; }
-            set {
-                RemoveFromTarget(RendertargetLayer, Rendertarget);
-                RendertargetLayer = value;
-                AddToTarget();
-            }
-        }
-
-        internal Graphics.CludoRenderTarget Target { get; set; }
-        private string Rendertarget { get; set; }
-        private float RendertargetLayer { get; set; }
-
-        #endregion RenderTargetInformation
-
-        #region IDrawableImplementation
-
-        private Vector2 _lastPosition;
-        private float _lastRotation;
-
-        public void AddToTarget() {
-            Scene.RenderTargets[RenderTarget].AddDrawable(RenderTargetLayer, this);
-            Target = Scene.RenderTargets[RenderTarget];
-        }
-
+        /// <summary>
+        /// Draws items. This function alone relies on the NormalDrawingSystem, if you want to change that you need to override this function.
+        /// </summary>
+        /// <param name="sb"></param>
         public virtual void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
             DrawComponets(sb);
         }
 
-        public void RemoveFromTarget(float layer, string target) {
-            Scene.RenderTargets[target].RemoveDrawable(layer, this);
-        }
-
-        public bool TestIfDrawNeeded() {
-            if (_lastRotation != Rotation || _lastPosition != Position) {
-                _lastRotation = Rotation;
-                _lastPosition = Position;
-                return true;
-            }
-            return false;
-        }
-
-        #endregion IDrawableImplementation
+        #endregion DrawingImplementation
     }
 }

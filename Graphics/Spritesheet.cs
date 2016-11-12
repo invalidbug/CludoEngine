@@ -1,12 +1,13 @@
 ﻿#region
 
-using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 #endregion
 
 namespace CludoEngine.Graphics {
+
     public class SpriteSheet {
         private Pipeline.CludoContentPipeline _pipeline;
         public Dictionary<string, Rectangle> Frames;
@@ -33,8 +34,7 @@ namespace CludoEngine.Graphics {
         public void SetFrame(string name, Rectangle newSource) {
             if (Frames.ContainsKey(name)) {
                 Frames[name] = newSource;
-            }
-            else {
+            } else {
                 AddFrame(name, newSource);
             }
         }

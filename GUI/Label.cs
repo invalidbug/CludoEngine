@@ -1,11 +1,12 @@
 ﻿#region
 
-using System;
 using Microsoft.Xna.Framework;
+using System;
 
 #endregion
 
 namespace CludoEngine.GUI {
+
     public class Label : IControl {
         private int _characterCountPerLine;
         private bool _inParentControl;
@@ -50,10 +51,9 @@ namespace CludoEngine.GUI {
                     }
                     var vectorBounds = _theme.Font.MeasureString(_text);
                     Size = vectorBounds;
-                    Bounds = new Rectangle((int) Position.X, (int) Position.Y, (int) vectorBounds.X,
-                        (int) vectorBounds.Y);
-                }
-                else {
+                    Bounds = new Rectangle((int)Position.X, (int)Position.Y, (int)vectorBounds.X,
+                        (int)vectorBounds.Y);
+                } else {
                     throw new ArgumentException("Cannot handle strings longer than " + 32764 + " in length!");
                 }
             }

@@ -1,5 +1,7 @@
 ﻿namespace CludoEngine.Components {
+
     public struct CapsuleCollider : IComponent {
+
         public CapsuleCollider(int localX, int localY, int width, int height, float density)
             : this() {
             LocalX = localX;

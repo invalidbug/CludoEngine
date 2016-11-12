@@ -1,5 +1,7 @@
 ﻿namespace CludoEngine.Debugging {
+
     public class ErrorArgs {
+
         public ErrorArgs(string message, bool fatal) {
             Reason = message;
             Fatal = fatal;
