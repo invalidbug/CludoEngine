@@ -71,11 +71,14 @@ namespace CludoEngine {
 
         public List<TiledPrefab> LoadedTiledPrefabs;
 
+        // not created, because tile maps are optional.
+        public TileMap TileMap;
+
         public Texture2D Vector;
         public int Ver;
 
         public Scene(SpriteBatch sb, GraphicsDeviceManager graphicsDeviceManager, GraphicsDevice gd, GameWindow window,
-            ContentManager content, int FOVWidth, int FOVHeight) {
+            ContentManager content, int FOVWidth, int FOVHeight,IDrawSystem system = null) {
             buffer = new RenderTarget2D(gd, graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight);
             GraphicsDevice = gd;
             SpriteBatch = sb;
@@ -114,6 +117,14 @@ namespace CludoEngine {
                 graphicsDeviceManager.PreferredBackBufferWidth, graphicsDeviceManager.PreferredBackBufferHeight,
                 gd, true);
             Pipeline.LoadContent<SpriteFont>("Font",Content,true);
+            if (system == null) {
+                SetDrawSystem(new NormalDrawSystem(GraphicsDevice, this,
+                    new Vector2(graphicsDeviceManager.PreferredBackBufferWidth,
+                        graphicsDeviceManager.PreferredBackBufferHeight)));
+            }
+            else {
+                SetDrawSystem(system);
+            }
             StartScene();
         }
 

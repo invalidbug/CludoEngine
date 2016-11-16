@@ -24,21 +24,33 @@ namespace CludoEngine.Graphics {
 
 
         public void ReadySpriteBatch(SpriteBatch sb) {
-            ReadySpriteBatch(sb,BlendState.NonPremultiplied);
+            ReadySpriteBatch(sb,BlendState.NonPremultiplied, true);
         }
+
         public void ReadySpriteBatch(SpriteBatch sb,BlendState state) {
-            sb.Begin(SpriteSortMode.FrontToBack, state, null, null, null, null, _scene.Camera.GetViewMatrix());
+            ReadySpriteBatch(sb,state, true);
         }
+        public void ReadySpriteBatch(SpriteBatch sb, BlendState state, bool transform) {
+            if (transform) {
+                sb.Begin(SpriteSortMode.FrontToBack, state, null, null, null, null, _scene.Camera.GetViewMatrix());
+                return;
+            }
+            sb.Begin(SpriteSortMode.FrontToBack, state);
+        }
+        public virtual void DrawTilemap(SpriteBatch sb) {
+            if(CludoGame.CurrentScene.TileMap != null)
+                CludoGame.CurrentScene.TileMap.Draw(sb);
+        }
+
         public void Draw(SpriteBatch sb) {
             _graphics.Clear(Color.Black);
             _graphics.SetRenderTarget(_buffer);
             ReadySpriteBatch(sb);
-            foreach (GameObject obj in _scene.GameObjects.Objects.Values) {
-                obj.Draw(sb);
-            }
+            _scene.GameObjects.Draw(sb);
             foreach (TiledPrefab prefab in _scene.LoadedTiledPrefabs) {
                 prefab.Draw(sb);
             }
+            DrawTilemap(sb);
             sb.End();
             if (_scene.Debug) {
                 _scene.DrawDebug(sb);

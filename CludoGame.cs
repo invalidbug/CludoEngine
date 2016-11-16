@@ -77,7 +77,6 @@ namespace CludoEngine {
                 (Scene)
                     Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, Graphics, GraphicsDevice, Window,
                         Content, 1080, 720);
-            a.SetDrawSystem(new NormalDrawSystem(GraphicsDevice, a, new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight)));
             LoadedScenes.Add(newSceneName, a);
             return a;
         }
@@ -107,7 +106,6 @@ namespace CludoEngine {
                     Activator.CreateInstance(SceneTypes[sceneTypeName], SpriteBatch, Graphics, GraphicsDevice, Window,
                         Content, 1080,720);
             LoadedScenes.Add(newSceneName, a);
-            a.SetDrawSystem(new NormalDrawSystem(GraphicsDevice, a, new Vector2(Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight)));
             SetScene(newSceneName);
             return a;
         }

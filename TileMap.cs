@@ -40,14 +40,10 @@ namespace CludoEngine {
             ParseTilemap(scene);
         }
 
+        public float Depth { get; set; } = 0.5f;
+
         public void Draw(SpriteBatch sb) {
             Draw(sb, false);
-        }
-
-
-
-        public bool TestIfDrawNeeded() {
-            return true;
         }
 
         private void ParseTilemap(Scene scene) {
@@ -196,9 +192,10 @@ namespace CludoEngine {
                 var y = t.Y * _map.TileHeight;
 
                 var tilesetRec = GetSpritePosRect(sheet.Texture.Width, t.Gid - offset, 64);
-                sb.Draw(sheet.Texture, new Rectangle(x, y, 64, 64), tilesetRec, Color.White);
+                sb.Draw(sheet.Texture, new Rectangle(x, y, 64, 64), tilesetRec, Color.White,0f,Vector2.Zero, SpriteEffects.None, Depth);
             }
         }
+
 
         public void DrawLayer(SpriteBatch sb, string name, bool drawCollisionLayer = false) {
             if (drawCollisionLayer == false && name.Contains("Collision Layer")) {

@@ -1,6 +1,7 @@
 ﻿#region
 
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 #endregion
@@ -38,6 +39,7 @@ namespace CludoEngine {
             // Iterate through each component and Draw it.
             for (var i = 0; i < Objects.Count; i++) {
                 if (Objects.Count >= i) {
+                    var TEMP = Objects.ElementAt(i).Value;
                     Objects.ElementAt(i).Value.Draw(sb);
                 }
             }
@@ -74,15 +76,6 @@ namespace CludoEngine {
             return HasTag(tag);
         }
 
-        public GameObject GetGameObject(string name) {
-            foreach (GameObject i in Objects.Values) {
-                if (i.Name == name) {
-                    return i;
-                }
-            }
-            return null;
-        }
-
         public IEnumerable<GameObject> HasTag(string tag) {
             return
                 from entry in Objects
@@ -102,6 +95,19 @@ namespace CludoEngine {
                 from entry in Objects
                 where ((GameObject)entry.Value).Name.StartsWith(i)
                 select entry.Value;
+        }
+
+        public bool Exists(string name) {
+            return GetGameObject(name) != null;
+        }
+
+        public GameObject GetGameObject(string name) {
+            foreach (GameObject i in Objects.Values) {
+                if (i.Name == name) {
+                    return i;
+                }
+            }
+            return null;
         }
 
         public void RemoveContainsTag(string tag) {

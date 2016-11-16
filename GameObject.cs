@@ -1,11 +1,14 @@
 ﻿#region
 
+using System;
 using CludoEngine.Components;
 using FarseerPhysics;
 using FarseerPhysics.Dynamics;
 using FarseerPhysics.Factories;
 using Microsoft.Xna.Framework;
 using System.Collections.Generic;
+using CludoEngine.Graphics;
+using Microsoft.Xna.Framework.Graphics;
 
 #endregion
 
@@ -21,6 +24,8 @@ namespace CludoEngine {
     /// set to the count of the components +1.
     /// </summary>
     public class GameObject : ComponentSystem, IUpdateable {
+        private NormalDrawSystem _drawSystem;
+        private bool _useNormalDrawSystem = false;
 
         public GameObject(string name, Scene scene, Vector2 position) {
             OnComponentAddedEvent += GameObject_OnComponentAddedEvent;
@@ -34,10 +39,18 @@ namespace CludoEngine {
             Body.IsStatic = false;
             Position = position;
             Body.OnCollision += Body_OnCollision;
+            if (scene.DrawSystem.GetType() == typeof (NormalDrawSystem)) {
+                _drawSystem = (NormalDrawSystem) Scene.DrawSystem;
+                _useNormalDrawSystem = true;
+            }
         }
 
         public bool IgnoreDebug { get; set; }
 
+        /// <summary>
+        /// Move with the Camera.
+        /// </summary>
+        public bool DoTransform { get; set; } = true;
         public virtual void Update(GameTime gt) {
             if (Body.UserData == null) {
                 Body.UserData = this;
@@ -149,6 +162,17 @@ namespace CludoEngine {
         /// </summary>
         /// <param name="sb"></param>
         public virtual void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
+            if (!_useNormalDrawSystem) {
+                throw new NullReferenceException("You have setup cludo to use a different drawing system, please override this function to work with it! This draw function relies 100% on NormalDrawSystem!");
+            }
+            if (!DoTransform) {
+                sb.End();
+                _drawSystem.ReadySpriteBatch(sb,BlendState.NonPremultiplied,false);
+                DrawComponets(sb);
+                sb.End();
+                _drawSystem.ReadySpriteBatch(sb);
+                return;
+            }
             DrawComponets(sb);
         }
 
