@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using TiledSharp;
+using IDrawable = CludoEngine.Graphics.IDrawable;
 
 #endregion
 
@@ -24,7 +25,7 @@ namespace CludoEngine {
         }
     }
 
-    public class TileMap {
+    public class TileMap : IDrawable {
         private TmxMap _map;
         private Scene _scene;
         private Dictionary<int, TileSheet> _tilesets;
@@ -38,9 +39,15 @@ namespace CludoEngine {
             // create tilesets dictionary
             _tilesets = new Dictionary<int, TileSheet>();
             ParseTilemap(scene);
+            DoTransform = true;
+            Depth = 0.988f;
+            Color = Color.White;
+            scene.DrawSystem.AddTileMap(this);
         }
 
-        public float Depth { get; set; } = 0.5f;
+        public bool DoTransform { get; set; }
+        public float Depth { get; set; }
+        public Color Color { get; set; }
 
         public void Draw(SpriteBatch sb) {
             Draw(sb, false);

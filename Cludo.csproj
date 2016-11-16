@@ -87,6 +87,7 @@
     <Compile Include="Components\ParticleVelocityEffect.cs" />
     <Compile Include="Components\RandomMovementEffect.cs" />
     <Compile Include="Components\SinglePixelParticleDrawer.cs" />
+    <Compile Include="Graphics\IDrawable.cs" />
     <Compile Include="Graphics\IDrawSystem.cs" />
     <Compile Include="Graphics\NormalDrawSystem.cs" />
     <Compile Include="ICloneable.cs" />

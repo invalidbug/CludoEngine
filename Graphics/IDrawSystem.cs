@@ -9,5 +9,9 @@ namespace CludoEngine.Graphics {
         void Draw(SpriteBatch sb);
 
         void ApplyResolutionChange();
+
+        void AddTiledPrefab(TiledPrefab prefab);
+
+        void AddTileMap(TileMap map);
     }
 }

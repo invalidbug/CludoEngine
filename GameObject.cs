@@ -47,10 +47,7 @@ namespace CludoEngine {
 
         public bool IgnoreDebug { get; set; }
 
-        /// <summary>
-        /// Move with the Camera.
-        /// </summary>
-        public bool DoTransform { get; set; } = true;
+
         public virtual void Update(GameTime gt) {
             if (Body.UserData == null) {
                 Body.UserData = this;
@@ -158,21 +155,10 @@ namespace CludoEngine {
         #region DrawingImplementation
 
         /// <summary>
-        /// Draws items. This function alone relies on the NormalDrawingSystem, if you want to change that you need to override this function.
+        /// Draws components.
         /// </summary>
         /// <param name="sb"></param>
         public virtual void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
-            if (!_useNormalDrawSystem) {
-                throw new NullReferenceException("You have setup cludo to use a different drawing system, please override this function to work with it! This draw function relies 100% on NormalDrawSystem!");
-            }
-            if (!DoTransform) {
-                sb.End();
-                _drawSystem.ReadySpriteBatch(sb,BlendState.NonPremultiplied,false);
-                DrawComponets(sb);
-                sb.End();
-                _drawSystem.ReadySpriteBatch(sb);
-                return;
-            }
             DrawComponets(sb);
         }
 

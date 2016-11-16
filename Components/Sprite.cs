@@ -5,12 +5,14 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Linq;
+using CludoEngine.Graphics;
+using IDrawable = CludoEngine.Graphics.IDrawable;
 
 #endregion
 
 namespace CludoEngine.Components {
 
-    public class Sprite : IComponent {
+    public class Sprite : IComponent, IDrawable {
         private Animator _animator;
         private Vector2 _drawOrigin;
         private bool _isParticle;
@@ -104,6 +106,10 @@ namespace CludoEngine.Components {
         public int Id { get; set; }
         public Vector2 LocalPosition { get; set; }
         public float LocalRotation { get; set; }
+        /// <summary>
+        /// Move with the Camera.
+        /// </summary>
+        public bool DoTransform { get; set; } = true;
 
         public string Name { get; set; }
 
@@ -149,13 +155,24 @@ namespace CludoEngine.Components {
             };
         }
 
+        /// <summary>
+        /// Works only with NormalDrawSystem.
+        /// </summary>
+        /// <param name="sb"></param>
         public void Draw(SpriteBatch sb) {
             if (!_isParticle) {
-                sb.Draw(_texture,
-                    new Rectangle(Convert.ToInt32(GameObject.Position.X) ,
-                        Convert.ToInt32(GameObject.Position.Y) , Width, Height), SourceRectangle, Color,
-                    LocalRotation + GameObject.Rotation, _drawOrigin, Effects, Depth);
-            } else {
+                if (!DoTransform) {
+                    sb.End();
+                    var _drawSystem = (NormalDrawSystem)CludoGame.CurrentScene.DrawSystem;
+                    _drawSystem.ReadySpriteBatch(sb, BlendState.NonPremultiplied, false);
+                    drawSprite(sb);
+                    sb.End();
+                    _drawSystem.ReadySpriteBatch(sb);
+                    return;
+                }
+                drawSprite(sb);
+            }
+            else {
                 sb.Draw(_texture,
                 new Rectangle(Convert.ToInt32(_particle.Position.X),
                     Convert.ToInt32(_particle.Position.Y), (int)_particle.Size.X, (int)_particle.Size.Y), SourceRectangle, _particle.Color,
@@ -177,6 +194,13 @@ namespace CludoEngine.Components {
             if (args.Removed.Name == "Animator") {
                 _animator = null;
             }
+        }
+
+        private void drawSprite(SpriteBatch sb) {
+            sb.Draw(_texture,
+                new Rectangle(Convert.ToInt32(GameObject.Position.X),
+                    Convert.ToInt32(GameObject.Position.Y), Width, Height), SourceRectangle, Color,
+                LocalRotation + GameObject.Rotation, _drawOrigin, Effects, Depth);
         }
     }
 }

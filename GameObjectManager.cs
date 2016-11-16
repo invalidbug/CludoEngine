@@ -39,7 +39,6 @@ namespace CludoEngine {
             // Iterate through each component and Draw it.
             for (var i = 0; i < Objects.Count; i++) {
                 if (Objects.Count >= i) {
-                    var TEMP = Objects.ElementAt(i).Value;
                     Objects.ElementAt(i).Value.Draw(sb);
                 }
             }
