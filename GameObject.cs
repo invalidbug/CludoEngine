@@ -65,9 +65,9 @@ namespace CludoEngine {
         }
 
         private void GameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
-            switch (args.Added.Type) {
+            switch (args.Component.Type) {
                 case "CircleCollider":
-                var circle = (CircleCollider)args.Added;
+                var circle = (CircleCollider)args.Component;
                 FixtureFactory.AttachCircle(ConvertUnits.ToSimUnits(circle.Radius), circle.Density, Body,
                     new Vector2(ConvertUnits.ToSimUnits(circle.LocalX), ConvertUnits.ToSimUnits(circle.LocalY)),
                     Body);
@@ -78,7 +78,7 @@ namespace CludoEngine {
                 break;
 
                 case "RectangleCollider":
-                var rect = (RectangleCollider)args.Added;
+                var rect = (RectangleCollider)args.Component;
                 FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(rect.Width),
                     ConvertUnits.ToSimUnits(rect.Height), rect.Density,
                     new Vector2(ConvertUnits.ToSimUnits(rect.LocalX), ConvertUnits.ToSimUnits(rect.LocalY)), Body);
@@ -89,7 +89,7 @@ namespace CludoEngine {
                 break;
 
                 case "CapsuleCollider":
-                var capsule = (CapsuleCollider)args.Added;
+                var capsule = (CapsuleCollider)args.Component;
                 FixtureFactory.AttachRectangle(ConvertUnits.ToSimUnits(capsule.Width),
                     ConvertUnits.ToSimUnits(capsule.Height), capsule.Density,
                     new Vector2(ConvertUnits.ToSimUnits(capsule.LocalX), ConvertUnits.ToSimUnits(capsule.LocalY)),

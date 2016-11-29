@@ -3,9 +3,9 @@
     public class OnComponentAddedEventArgs {
 
         public OnComponentAddedEventArgs(IComponent component) {
-            Added = component;
+            Component = component;
         }
 
-        public IComponent Added { get; internal set; }
+        public IComponent Component { get; internal set; }
     }
 }

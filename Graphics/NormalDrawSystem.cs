@@ -35,7 +35,7 @@ namespace CludoEngine.Graphics {
             foreach (var component in a) {
                 var i = (IDrawable)component;
                 if (drawables.Contains(i)) {
-                    drawables.Add(i);
+                    drawables.Remove(i);
                 }
             }
             SortDrawables();
@@ -52,6 +52,26 @@ namespace CludoEngine.Graphics {
                 }
             }
             SortDrawables();
+            args.GameObject.OnComponentAddedEvent +=GameObject_OnComponentAddedEvent;
+            args.GameObject.OnComponentRemovedEvent +=GameObject_OnComponentRemovedEvent;
+        }
+
+        private void GameObject_OnComponentRemovedEvent(object sender, OnComponentRemovedEventArgs args) {
+            if (args.Component.GetType() == typeof (IDrawable)) {
+                var i = (IDrawable) args.Component;
+                if (drawables.Contains(i)) {
+                    drawables.Remove(i);
+                }
+            }
+        }
+
+        private void GameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
+            if (args.Component.GetType() == typeof(IDrawable)) {
+                var i = (IDrawable)args.Component;
+                if (drawables.Contains(i)) {
+                    drawables.Remove(i);
+                }
+            }
         }
 
         private void SortDrawables() {

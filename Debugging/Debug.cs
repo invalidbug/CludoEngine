@@ -1,4 +1,7 @@
-﻿namespace CludoEngine.Debugging {
+﻿using System.Data.Odbc;
+using System.Security.AccessControl;
+
+namespace CludoEngine.Debugging {
 
     public static class Debug {
 
@@ -8,15 +11,29 @@
 
         public delegate void OnWarning(object sender, WarningArgs args);
 
+        public delegate void OnMessage(object sender, MessageArgs args);
+
         public static event OnDebug OnDebugEvent;
 
         public static event OnError OnErrorEvent;
 
         public static event OnWarning OnWarningEvent;
 
+        public static event OnMessage OnMessageEvent;
+
         public static void DoDebug(string message) {
             if (OnDebugEvent != null) {
                 OnDebugEvent(null, new DebugArgs(message));
+            }
+        }
+
+        public static void BroadcastMessage(string message) {
+            BroadcastMessage("New Message", message);
+        }
+
+        public static void BroadcastMessage(string title, object message) {
+            if (OnMessageEvent != null) {
+                OnMessageEvent(null, new MessageArgs() {Title=title, Message = message });
             }
         }
 
@@ -70,4 +87,5 @@
             System.Diagnostics.Debug.Write("\n" + text);
         }
     }
+
 }

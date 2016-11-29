@@ -3,9 +3,9 @@
     public class OnComponentRemovedEventArgs {
 
         public OnComponentRemovedEventArgs(IComponent component) {
-            Removed = component;
+            Component = component;
         }
 
-        public IComponent Removed { get; internal set; }
+        public IComponent Component { get; internal set; }
     }
 }

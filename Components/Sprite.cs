@@ -21,6 +21,7 @@ namespace CludoEngine.Components {
         private Texture2D _texture;
 
         public Sprite(Particle particle, string texture) {
+            DoTransform = true;
             _isParticle = true;
             Name = "Unnamed";
             Type = "Sprite";
@@ -41,6 +42,7 @@ namespace CludoEngine.Components {
         }
 
         public Sprite(Particle particle, Texture2D texture) {
+            DoTransform = true;
             _isParticle = true;
             Name = "Unnamed";
             Type = "Sprite";
@@ -61,6 +63,7 @@ namespace CludoEngine.Components {
         }
 
         public Sprite(GameObject gameObject, string texture) {
+            DoTransform = true;
             _isParticle = false;
             Name = "Unnamed";
             Type = "Sprite";
@@ -80,6 +83,7 @@ namespace CludoEngine.Components {
         }
 
         public Sprite(GameObject gameObject, Texture2D texture) {
+            DoTransform = true;
             _isParticle = false;
             Name = "Unnamed";
             Type = "Sprite";
@@ -109,7 +113,7 @@ namespace CludoEngine.Components {
         /// <summary>
         /// Move with the Camera.
         /// </summary>
-        public bool DoTransform { get; set; } = true;
+        public bool DoTransform { get; set; }
 
         public string Name { get; set; }
 
@@ -185,13 +189,13 @@ namespace CludoEngine.Components {
         }
 
         private void gameObject_OnComponentAddedEvent(object sender, OnComponentAddedEventArgs args) {
-            if (args.Added.Type == "Animator") {
-                _animator = (Animator)args.Added;
+            if (args.Component.Type == "Animator") {
+                _animator = (Animator)args.Component;
             }
         }
 
         private void gameObject_OnComponentRemovedEvent(object sender, OnComponentRemovedEventArgs args) {
-            if (args.Removed.Name == "Animator") {
+            if (args.Component.Name == "Animator") {
                 _animator = null;
             }
         }
