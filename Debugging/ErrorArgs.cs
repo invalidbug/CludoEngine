@@ -3,7 +3,7 @@
     public class ErrorArgs {
 
         public ErrorArgs(string message, bool fatal) {
-            Reason = message;
+             Reason = message;
             Fatal = fatal;
         }
 
