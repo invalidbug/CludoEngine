@@ -1,9 +1,9 @@
-# Cludo-Engine - A powerful 2d Monogame Game Engine!
+# Cludo-Engine - A 2d Monogame Game Engine!
 
 
 Current Version: 1.0 final
 The engine is very buggy. Feel free to update it, I'll accept any reasonable changes. However the project is dropped.
-
+If you want a actual Monogame engine that is indeed powerful, check out https://github.com/prime31/Nez
 
 #Credits
 - Darin Boyer - Lead Developer and Project Manager. darinboyer.website & cludogames.com
