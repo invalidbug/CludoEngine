@@ -171,13 +171,5 @@ namespace CludoEngine {
 
         public void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch sb) {
         }
-
-        #region Keyboard Is Keys
-
-        #endregion
-
-        #region Mouse Is Keys
-
-        #endregion
     }
 }
