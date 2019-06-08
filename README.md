@@ -6,7 +6,7 @@ The engine is very buggy. Feel free to update it, I'll accept any reasonable cha
 If you want a actual Monogame engine that is indeed powerful, check out https://github.com/prime31/Nez
 
 #Credits
-- Darin Boyer - Lead Developer and Project Manager. darinboyer.website & cludogames.com
+- Myself - Lead Developer and Project Manager. darinboyer.website & cludogames.com
 - TiledSharp - A library used to help load Tiled Maps. https://github.com/marshallward/TiledSharp - Licensed under the Apache License. See https://github.com/marshallward/TiledSharp/blob/master/LICENSE for more information.
 - Monogame - A library used to help Render anything on the screen. http://www.monogame.net/ - Licensed under the ﻿Microsoft Public License (Ms-PL). See https://github.com/mono/MonoGame/blob/develop/LICENSE.txt for more information.
 - Farseer Physics - A library used to help implement Physics into the engine. https://farseerphysics.codeplex.com/ - Licensed under the Microsoft Permissive License (Ms-PL) v1.1. See https://farseerphysics.codeplex.com/license for more information.
